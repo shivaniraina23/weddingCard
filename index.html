@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shivani &amp; Ashwani - Wedding Invitation</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Italiana&family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Allura&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Pinyon+Script&family=Cinzel+Decorative:wght@400;700;900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Loading screen -->
+  <div class="loader" id="loader">
+    <div class="loader-content">
+      <div class="loader-icon">ॐ</div>
+      <p class="loader-text">Preparing your experience...</p>
+      <div class="loader-progress">
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="app-container" id="app">
+    <!-- Music Toggle -->
+    <div class="music-control" id="musicToggle">
+      <div class="music-icon">🎵</div>
+      <div class="music-waves">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <audio id="bgMusic" loop>
+      <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Navigation dots -->
+    <nav class="nav-dots" aria-label="Page navigation">
+      <a href="#page-1" class="nav-dot active" data-page="1" aria-label="Go to Page 1"></a>
+      <a href="#page-2" class="nav-dot" data-page="2" aria-label="Go to Page 2"></a>
+      <a href="#page-3" class="nav-dot" data-page="3" aria-label="Go to Page 3"></a>
+      <a href="#page-4" class="nav-dot" data-page="4" aria-label="Go to Page 4"></a>
+      <a href="#page-5" class="nav-dot" data-page="5" aria-label="Go to Page 5"></a>
+    </nav>
+    <!-- Page 1: Ganesh Blessings -->
+    <section class="page fullscreen" id="page-1">
+      <div class="page-content">
+        <div class="ganesh-section">
+          <h1 class="ganesh-main-text animate-on-scroll fade-in-up floating">Bless us by your gracious presence</h1>
+          <p class="ganesh-mantra animate-on-scroll fade-in-up animate-delay-1">ॐ श्री गणेशाय नमः</p>
+          <div class="scroll-hint animate-on-scroll fade-in-up animate-delay-2">
+            <span>Scroll to continue</span>
+            <div class="scroll-arrow">↓</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PAGE 2: BLESSINGS & HOST DETAILS -->
+    <section class="page fullscreen" id="page-2">
+      <div class="page-content blessings-page">
+        
+        <!-- Lord Ganesha Header & Mantras -->
+        <div class="blessings-header animate-on-scroll fade-in-up">
+          <div class="ganesha-icon">
+            <img src="image copy 3.png" alt="Lord Ganesha" width="55" style="margin-bottom: 12px;" />
+          </div>
+          <p class="sanskrit-heading">।। ॐ श्री गणेशाय नमः ।। &nbsp;&nbsp;&nbsp;&nbsp; ।। ॐ श्री वैकरी भगवती ।।</p>
+          <p class="sanskrit-mantra">
+            वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।<br>
+            निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा।।
+          </p>
+        </div>
+    
+        <!-- Blessings Text -->
+        <div class="blessings-content animate-on-scroll fade-in-up animate-delay-1">
+          <p class="blessing-line">With the divine blessings of <strong>Bhagwan Aap Shamboo Maharaj</strong></p>
+          
+          <p class="ashirvad-line">&amp; Ashirvad of our Parents</p>
+          <p class="parent-names">
+            <strong>Smt. Chuni Raina &amp; Sh. Shamboo Nath Raina</strong><br>
+            <span class="location">of Pethbug, Anantnag, Kashmir</span>
+          </p>
+    
+          <p class="ashirvad-line">&amp; heavenly blessings of</p>
+          <p class="parent-names">
+            <strong>Late Smt. Shama Ji &amp; Late Sh. Soom Nath Pandita</strong><br>
+            <span class="location">of Kharwara (Shopian) , Kashmir</span>
+          </p>
+        </div>
+    
+        <!-- Host Invitation Text -->
+        <div class="invitation-host animate-on-scroll fade-in-up animate-delay-2">
+          <h2 class="host-name">Sh. Sham Lal Raina</h2>
+          <p class="invitation-text">
+            solicits your gracious presence to shower your heartfelt blessings and grace the auspicious occasion of the Wedding Ceremony of
+          </p>
+        </div>
+    
+      </div>
+    </section>
+   
+
+   <!-- Page 3: Hero with Couple Photo -->
+   <section class="page fullscreen" id="page-3">
+    <div class="page-content hero-page">
+      <div class="hero-couple-container">
+        <div class="hero-image-frame animate-on-scroll scale-in floating">
+          <img src="couple.jpg" alt="Shivani &amp; Ashwani" class="hero-couple-image" />
+        </div>
+      </div>
+      <div class="hero-text-content">
+        <p class="hero-tagline animate-on-scroll fade-in-up">We are tying the knot</p>
+        
+        <!-- Couple Names with Parent Details Below Each -->
+        <div class="hero-couple-names-wrap animate-on-scroll fade-in-up" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin-bottom: 12px; text-align: center;">
+            
+          <!-- Bride Block -->
+          <div style="text-align: center; margin-bottom: 4px;">
+            <span class="hero-names" style="display: block; line-height: 1.1;">Shivani</span>
+            <span style="display: block; font-size: 0.68rem; opacity: 0.8; margin-top: 2px;">(D/o Smt. Babli Raina &amp; Sh. Shadi Lal Raina)</span>
+          </div>
+
+          <!-- Ampersand Connector -->
+          <div class="hero-names" style="font-size: 1.8rem; line-height: 1; margin: 4px 0;">&amp;</div>
+
+          <!-- Groom Block -->
+          <div style="text-align: center; margin-top: 4px;">
+            <span class="hero-names" style="display: block; line-height: 1.1;">Ashwani</span>
+            <span style="display: block; font-size: 0.68rem; opacity: 0.8; margin-top: 2px;">(S/o Smt. Sunita Bhat &amp; Sh. Kanwal Krishan Bhat)</span>
+          </div>
+
+        </div>
+
+        <p class="hero-subtext animate-on-scroll fade-in-up animate-delay-1">Save the Date</p>
+        <p class="hero-date-location animate-on-scroll fade-in-up animate-delay-2">
+          4th December, 2026 · 10:00 AM<br />
+          Baru Resorts, Jammu, India <br><br>
+        </p>
+          <!-- Countdown Timer -->
+          <div class="countdown-container animate-on-scroll fade-in-up animate-delay-3">
+            <div class="countdown-item">
+              <span id="days">00</span>
+              <span class="label">Days</span>
+            </div>
+            <div class="countdown-item">
+              <span id="hours">00</span>
+              <span class="label">Hours</span>
+            </div>
+            <div class="countdown-item">
+              <span id="minutes">00</span>
+              <span class="label">Mins</span>
+            </div>
+            <div class="countdown-item">
+              <span id="seconds">00</span>
+              <span class="label">Secs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 4: Schedule -->
+    <section class="page fullscreen" id="page-4">
+      <div class="page-content schedule-page">
+        <div class="schedule-header">
+          <h2 class="animate-on-scroll fade-in-up">Schedule</h2>
+        </div>
+        <div class="schedule-timeline">
+          <!-- <article class="schedule-card animate-on-scroll slide-in-left animate-delay-1">
+            <div class="schedule-icon">🪷</div>
+            <div class="schedule-content">
+              <h3>Garnavay &amp; Satsang</h3>
+              <p class="schedule-date">December 29th, 2026</p>
+              <p class="schedule-time">9:00 AM onwards</p>
+              <p class="schedule-location">At our residence, Durga Nagar, Jammu</p>
+            </div>
+          </article> -->
+
+          <article class="schedule-card animate-on-scroll slide-in-right animate-delay-2">
+            <div class="schedule-icon"><img src="image copy 5.png" alt="Mehendi Raat" width="40" height="40" /></div>
+            <div class="schedule-content">
+              <h3>Musmuchrawun & Mehndiraat</h3>
+              <p class="schedule-date">Wednesday, December 2nd, 2026</p>
+              <p class="schedule-time">6:00 PM onwards</p>
+              <p class="schedule-location"><a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
+                class="venue-map-link">
+                 Baru Resorts, Bohri Udheywala, Jammu
+              </a></p>
+            </div>
+          </article>
+
+          <article class="schedule-card animate-on-scroll slide-in-left animate-delay-3">
+            <div class="schedule-icon"><img src="image copy.png" class="event-icon" width="40" height="40" /></div>
+            <div class="schedule-content">
+              <h3>Devgon</h3>
+              <p class="schedule-date">Thursday, December 3rd, 2026</p>
+              <p class="schedule-time">9:00 AM onwards</p>
+              <p class="schedule-location"><a href="https://maps.app.goo.gl/652tNJk8w2yvGoQr9" target="_blank" rel="noopener noreferrer"
+                class="venue-map-link"> Sidhlakshmi Peeth, Lok bhawan Teerathraj, Sector 2, Durga Nagar, Jammu</a></p>
+            </div>
+          </article>
+
+          <article class="schedule-card highlight animate-on-scroll scale-in animate-delay-4">
+            <div class="schedule-icon"><img src="image copy 2.png" class="event-icon" width="40" height="40" /></div>
+            <div class="schedule-content">
+              <h3>Reception of Barat</h3>
+              <p class="schedule-date">Friday, December 4th, 2026</p>
+              <p class="schedule-time">10:00 AM onwards</p>
+              <p class="schedule-location"><a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
+                class="venue-map-link">
+                 Baru Resorts, Bohri Udheywala, Jammu
+              </a></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 5: RSVP & Venue -->
+    <section class="page fullscreen" id="page-5">
+      <div class="page-content rsvp-page">
+        <div class="rsvp-header">
+          <h2 class="animate-on-scroll fade-in-up">RSVP</h2>
+        </div>
+        <div class="rsvp-content">
+          <div class="rsvp-contact animate-on-scroll fade-in-up animate-delay-1">
+            <p class="rsvp-label">Contact</p>
+            <div class="rsvp-buttons">
+              <a href="tel:+919086185371" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-2">📞 Call 90861
+                85371</a>
+              <a href="tel:+919469660133" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-3">📞 Call 94696
+                60133</a>
+              <a href="tel:+916006585956" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-4">📞 Call 60065
+                85956</a>
+            </div>
+          </div>
+          <div class="venue-info animate-on-scroll fade-in-up animate-delay-5">
+            <h3>Venue</h3>
+            <div class="venue-card">
+              <div class="venue-icon">🏛️</div>
+              <div class="venue-details">
+                <h4>Wedding Venue</h4>
+                <p>📍
+                <a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
+                  class="venue-map-link">
+                   Baru Resorts, Jammu
+                </a></p>
+                <p class="venue-note">'Where our forever story begins'</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 6: Contact Us -->
+    <section class="page fullscreen" id="page-6">
+      <div class="page-content contact-page">
+        <div class="contact-header">
+          <h2 class="animate-on-scroll fade-in-up">Contact Us</h2>
+          <p class="animate-on-scroll fade-in-up animate-delay-1">We'd love to hear from you!</p>
+        </div>
+
+        <div class="contact-container animate-on-scroll fade-in-up animate-delay-2">
+          <div class="contact-info">
+            <div class="contact-whatsapp">
+              <h3>Have Questions?</h3>
+              <p>Reach out to us directly on WhatsApp for any queries regarding the events.</p><br>
+              
+              <a 
+                href="https://wa.me/919149451381?text=Hi!%20I%20have%20a%20query%20regarding%20the%20wedding%20celebrations." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="whatsapp-btn"
+              > <h3>
+                💬 Chat with Us on WhatsApp </h3>
+              </a>
+            </div>
+            <!-- <div class="contact-item">
+              <span class="contact-icon">📍</span>
+              <p>Baru Resorts, Jammu, India</p>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">✉️</span>
+              <p>shivani.ashwani.wedding@example.com</p> -->
+            <!-- </div> -->
+          </div>
+
+          <!-- <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <textarea placeholder="Your Message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send Message</button>
+          </form> -->
+        </div>
+
+        <footer class="page-footer animate-on-scroll fade-in-up animate-delay-3">
+          <p>With Best Compliments From,</p>
+          <p class="footer-names" style="font-size: 24px; font-weight: bold;">Babli Raina &amp; Shadi Lal Raina</p>
+        </footer>
+      </div>
+    </section>
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollTopBtn">↑</div>
+  </div>
+</body>
+
+</html>
