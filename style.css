@@ -190,6 +190,7 @@ h3 {
   transition: opacity 1s ease, visibility 1s ease;
   z-index: 1;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -523,7 +524,7 @@ h3 {
 }
 
 .schedule-page {
-  padding: 60px 20px;
+  padding: 60px 20px 90px;
 }
 
 .schedule-header {
@@ -1280,7 +1281,7 @@ h3 {
 }
 .blessings-page {
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px 20px 90px;
   max-width: 900px;
   margin: 0 auto;
   display: flex;

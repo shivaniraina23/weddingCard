@@ -37,11 +37,40 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 pages.forEach(page => revealObserver.observe(page));
 
+// Scroll & transition tracking
+let boundaryDeltaY = 0;
+let boundaryTimer = null;
+let lastScrollTime = 0;
+
+// Listen to scroll events on each page to track internal scroll activity
+pages.forEach(page => {
+  page.addEventListener('scroll', () => {
+    lastScrollTime = Date.now();
+  }, { passive: true });
+});
+
+// Helper: Calculate whether active page can scroll internally
+function getScrollMetrics(element) {
+  if (!element) {
+    return { canScrollDown: false, canScrollUp: false, isScrollable: false, scrollTop: 0, maxScroll: 0 };
+  }
+  const scrollTop = element.scrollTop;
+  const maxScroll = Math.max(0, element.scrollHeight - element.clientHeight);
+  const tolerance = 6; // px tolerance for subpixel/zoom rounding
+
+  const isScrollable = maxScroll > tolerance;
+  const canScrollDown = isScrollable && scrollTop < maxScroll - tolerance;
+  const canScrollUp = isScrollable && scrollTop > tolerance;
+
+  return { canScrollDown, canScrollUp, isScrollable, scrollTop, maxScroll };
+}
+
 // Refined switchPage trigger
 function switchPage(index) {
   if (index < 0 || index >= pages.length || index === currentPageIndex || isTransitioning) return;
 
   isTransitioning = true;
+  boundaryDeltaY = 0;
 
   // Update nav dots
   navDots.forEach(dot => dot.classList.remove('active'));
@@ -49,6 +78,11 @@ function switchPage(index) {
 
   const oldPage = pages[currentPageIndex];
   const newPage = pages[index];
+
+  // Reset scroll position of target page so it opens at top
+  if (newPage) {
+    newPage.scrollTop = 0;
+  }
 
   // Fade out old page
   oldPage.classList.remove('active');
@@ -69,6 +103,7 @@ function switchPage(index) {
 
   setTimeout(() => {
     isTransitioning = false;
+    boundaryDeltaY = 0;
   }, transitionDuration);
 }
 
@@ -78,6 +113,7 @@ window.addEventListener('mousemove', (e) => {
   const y = (e.clientY / window.innerHeight - 0.5) * 20;
 
   const activePage = pages[currentPageIndex];
+  if (!activePage) return;
   const floatingElements = activePage.querySelectorAll('.floating');
 
   floatingElements.forEach(el => {
@@ -88,45 +124,153 @@ window.addEventListener('mousemove', (e) => {
 // Initial state
 pages[0].classList.add('active');
 
-// Wheel / Scroll "interference"
+// Wheel / Scroll Handling with Internal Scroll Protection
 window.addEventListener('wheel', (e) => {
+  clearAutoScrollTimer();
   if (isTransitioning) return;
-  if (Math.abs(e.deltaY) < 30) return; // Threshold for intentional scroll
+
+  const activePage = pages[currentPageIndex];
+  if (!activePage) return;
+
+  const { canScrollDown, canScrollUp, isScrollable } = getScrollMetrics(activePage);
 
   if (e.deltaY > 0) {
-    switchPage(currentPageIndex + 1);
-  } else {
-    switchPage(currentPageIndex - 1);
+    // Scrolling DOWN
+    if (canScrollDown) {
+      // Content has room to scroll down: allow native scrolling and keep track of scroll activity
+      boundaryDeltaY = 0;
+      lastScrollTime = Date.now();
+      return;
+    }
+
+    // User is at the bottom of the page (or page is not scrollable).
+    // Prevent accidental overshoot immediately after finishing internal scroll:
+    if (isScrollable && (Date.now() - lastScrollTime < 450)) {
+      boundaryDeltaY = 0;
+      return;
+    }
+
+    // Accumulate boundary scroll delta for intentional transition
+    boundaryDeltaY += e.deltaY;
+    clearTimeout(boundaryTimer);
+    boundaryTimer = setTimeout(() => {
+      boundaryDeltaY = 0;
+    }, 350);
+
+    const threshold = isScrollable ? 100 : 50;
+    if (boundaryDeltaY >= threshold) {
+      boundaryDeltaY = 0;
+      switchPage(currentPageIndex + 1);
+    }
+  } else if (e.deltaY < 0) {
+    // Scrolling UP
+    if (canScrollUp) {
+      // Content has room to scroll up: allow native scrolling
+      boundaryDeltaY = 0;
+      lastScrollTime = Date.now();
+      return;
+    }
+
+    // User is at the top of the page (or page is not scrollable).
+    if (isScrollable && (Date.now() - lastScrollTime < 450)) {
+      boundaryDeltaY = 0;
+      return;
+    }
+
+    boundaryDeltaY += Math.abs(e.deltaY);
+    clearTimeout(boundaryTimer);
+    boundaryTimer = setTimeout(() => {
+      boundaryDeltaY = 0;
+    }, 350);
+
+    const threshold = isScrollable ? 100 : 50;
+    if (boundaryDeltaY >= threshold) {
+      boundaryDeltaY = 0;
+      switchPage(currentPageIndex - 1);
+    }
   }
 }, { passive: true });
 
-// Keyboard "interference"
+// Keyboard Navigation
 document.addEventListener('keydown', (e) => {
+  clearAutoScrollTimer();
   if (isTransitioning) return;
+
+  const activePage = pages[currentPageIndex];
+  if (!activePage) return;
+
+  const { canScrollDown, canScrollUp } = getScrollMetrics(activePage);
+
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+    if (canScrollDown) {
+      e.preventDefault();
+      activePage.scrollBy({ top: e.key === ' ' || e.key === 'PageDown' ? 300 : 100, behavior: 'smooth' });
+      return;
+    }
     e.preventDefault();
     switchPage(currentPageIndex + 1);
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    if (canScrollUp) {
+      e.preventDefault();
+      activePage.scrollBy({ top: e.key === 'PageUp' ? -300 : -100, behavior: 'smooth' });
+      return;
+    }
     e.preventDefault();
     switchPage(currentPageIndex - 1);
   }
 });
 
-// Touch / Swipe "interference"
+// Touch / Swipe Navigation with Internal Scroll Protection
 let touchStartY = 0;
+let touchStartX = 0;
+let touchStartScrollTop = 0;
+let isTouchActive = false;
+
 document.addEventListener('touchstart', (e) => {
+  clearAutoScrollTimer();
+  if (e.touches.length !== 1) return;
   touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+  isTouchActive = true;
+
+  const activePage = pages[currentPageIndex];
+  touchStartScrollTop = activePage ? activePage.scrollTop : 0;
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
-  if (isTransitioning) return;
-  const touchEndY = e.changedTouches[0].clientY;
-  const diff = touchStartY - touchEndY;
+  if (!isTouchActive || isTransitioning) return;
+  isTouchActive = false;
 
-  if (Math.abs(diff) > 50) { // Threshold for swipe
-    if (diff > 0) {
+  const touchEndY = e.changedTouches[0].clientY;
+  const touchEndX = e.changedTouches[0].clientX;
+  const diffY = touchStartY - touchEndY;
+  const diffX = touchStartX - touchEndX;
+
+  // Ignore horizontal swipes
+  if (Math.abs(diffX) > Math.abs(diffY)) return;
+
+  const activePage = pages[currentPageIndex];
+  if (!activePage) return;
+
+  const currentScrollTop = activePage.scrollTop;
+  const scrollDiff = Math.abs(currentScrollTop - touchStartScrollTop);
+
+  // If internal scrolling occurred during this gesture, stay on current page
+  if (scrollDiff > 8) {
+    return;
+  }
+
+  const { canScrollDown, canScrollUp } = getScrollMetrics(activePage);
+
+  // Swiping UP -> intended to scroll down
+  if (diffY > 60) {
+    if (!canScrollDown) {
       switchPage(currentPageIndex + 1);
-    } else {
+    }
+  }
+  // Swiping DOWN -> intended to scroll up
+  else if (diffY < -60) {
+    if (!canScrollUp) {
       switchPage(currentPageIndex - 1);
     }
   }
@@ -136,6 +280,7 @@ document.addEventListener('touchend', (e) => {
 navDots.forEach((dot, index) => {
   dot.addEventListener('click', (e) => {
     e.preventDefault();
+    clearAutoScrollTimer();
     switchPage(index);
   });
 });
@@ -146,13 +291,9 @@ const AUTO_SCROLL_DELAY = 5000; // 5 seconds
 
 function startAutoScrollTimer() {
   autoScrollTimer = setTimeout(() => {
-    const scrollPos = window.scrollY;
     // Only auto-scroll if we are still on the first page
-    if (scrollPos < window.innerHeight / 2) {
-      const page2 = document.getElementById('page-2');
-      if (page2) {
-        page2.scrollIntoView({ behavior: 'smooth' });
-      }
+    if (currentPageIndex === 0 && !isTransitioning) {
+      switchPage(1);
     }
   }, AUTO_SCROLL_DELAY);
 }
