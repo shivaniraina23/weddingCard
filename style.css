@@ -727,51 +727,52 @@ h3 {
 }
 
 .rsvp-page {
-  padding: 60px 20px;
+  padding: 50px 20px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .rsvp-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 8px;
 }
 
 .rsvp-header h2 {
   font-family: "Italiana", serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   color: var(--primary);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 0;
 }
 
 .rsvp-content {
   max-width: 800px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .rsvp-contact {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 24px;
 }
 
 .rsvp-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: #b18a96;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .rsvp-buttons {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   max-width: 400px;
   margin: 0 auto;
 }
@@ -780,7 +781,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px 24px;
+  padding: 16px 24px;
   background: white;
   border-radius: 16px;
   color: var(--text-main);
@@ -802,14 +803,14 @@ h3 {
 }
 
 .venue-info {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .venue-info h3 {
   font-family: "Great Vibes", cursive;
   font-size: 1.8rem;
   color: #3b2431;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   text-align: center;
   font-weight: 400;
 }
@@ -817,9 +818,9 @@ h3 {
 .venue-card {
   background: white;
   border-radius: 20px;
-  padding: 28px;
+  padding: 20px 24px;
   display: flex;
-  gap: 24px;
+  gap: 20px;
   box-shadow: 0 10px 30px rgba(196, 142, 155, 0.15);
   align-items: center;
 }
@@ -1354,6 +1355,236 @@ h3 {
   line-height: 1.7;
   color: #444;
 }
+
+/* Responsive adjustments for Page 2 (Blessings) and Page 5 (RSVP) on Smaller Devices */
+@media (max-width: 768px), (max-height: 850px) and (max-width: 1024px) {
+  /* Page 2: Decrease entire text size and margins so all content is completely visible */
+  #page-2 {
+    padding: 0;
+  }
+
+  #page-2 .blessings-page {
+    padding: max(45px, env(safe-area-inset-top, 15px) + 20px) 16px 20px;
+    min-height: 100%;
+    height: 100%;
+    justify-content: center;
+  }
+
+  #page-2 .ganesha-icon img {
+    width: 34px !important;
+    height: auto !important;
+    margin-bottom: 4px !important;
+  }
+
+  #page-2 .sanskrit-heading {
+    font-size: 0.68rem;
+    margin-bottom: 3px;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+
+  #page-2 .sanskrit-mantra {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  #page-2 .blessing-line {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+
+  #page-2 .blessings-page strong {
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  #page-2 .ashirvad-line {
+    font-size: 0.72rem;
+    margin-top: 4px;
+    margin-bottom: 2px;
+  }
+
+  #page-2 .parent-names {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  #page-2 .parent-names .location {
+    font-size: 0.7rem;
+  }
+
+  #page-2 .host-name {
+    font-size: 1.05rem;
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+
+  #page-2 .invitation-text {
+    font-size: 0.74rem;
+    line-height: 1.35;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* Page 5: RSVP Spacing on Smaller Devices */
+  #page-5 {
+    padding: 0;
+  }
+
+  .rsvp-page {
+    padding: max(55px, env(safe-area-inset-top, 20px) + 25px) 16px 25px;
+    justify-content: center;
+    min-height: 100%;
+    height: 100%;
+  }
+
+  .rsvp-header {
+    margin-bottom: 4px;
+  }
+
+  .rsvp-header h2 {
+    font-size: clamp(1.8rem, 5.5vw, 2.3rem);
+    margin-bottom: 0;
+  }
+
+  .rsvp-label {
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+  }
+
+  .rsvp-contact {
+    margin-bottom: 12px;
+  }
+
+  .rsvp-buttons {
+    gap: 8px;
+    max-width: 310px;
+  }
+
+  .rsvp-btn {
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    border-radius: 12px;
+  }
+
+  .venue-info {
+    margin-top: 8px;
+  }
+
+  .venue-info h3 {
+    font-size: 1.45rem;
+    margin-bottom: 6px;
+  }
+
+  .venue-card {
+    padding: 10px 14px;
+    gap: 12px;
+    border-radius: 14px;
+    max-width: 310px;
+    margin: 0 auto;
+  }
+
+  .venue-icon {
+    font-size: 1.6rem;
+  }
+
+  .venue-details h4 {
+    font-size: 1.15rem;
+    margin-bottom: 2px;
+  }
+
+  .venue-details p {
+    font-size: 0.82rem;
+    margin-bottom: 1px;
+  }
+
+  .venue-note {
+    font-size: 0.72rem;
+    margin-top: 1px;
+  }
+}
+
+@media (max-width: 380px), (max-height: 680px) and (max-width: 480px) {
+  #page-2 .blessings-page {
+    padding: max(38px, env(safe-area-inset-top, 10px) + 15px) 12px 14px;
+  }
+
+  #page-2 .ganesha-icon img {
+    width: 28px !important;
+    margin-bottom: 2px !important;
+  }
+
+  #page-2 .sanskrit-heading {
+    font-size: 0.62rem;
+    letter-spacing: -0.4px;
+  }
+
+  #page-2 .sanskrit-mantra {
+    font-size: 0.72rem;
+    line-height: 1.25;
+    margin-bottom: 5px;
+  }
+
+  #page-2 .blessing-line {
+    font-size: 0.74rem;
+    margin-bottom: 3px;
+  }
+
+  #page-2 .blessings-page strong {
+    font-size: 0.8rem;
+  }
+
+  #page-2 .ashirvad-line {
+    font-size: 0.68rem;
+    margin-top: 2px;
+    margin-bottom: 1px;
+  }
+
+  #page-2 .parent-names {
+    font-size: 0.74rem;
+    margin-bottom: 3px;
+    line-height: 1.2;
+  }
+
+  #page-2 .parent-names .location {
+    font-size: 0.64rem;
+  }
+
+  #page-2 .host-name {
+    font-size: 0.95rem;
+    margin-top: 4px;
+    margin-bottom: 2px;
+  }
+
+  #page-2 .invitation-text {
+    font-size: 0.7rem;
+    line-height: 1.25;
+    max-width: 280px;
+  }
+
+  .rsvp-page {
+    padding: max(45px, env(safe-area-inset-top, 10px) + 20px) 12px 15px;
+  }
+
+  .rsvp-buttons {
+    gap: 6px;
+    max-width: 280px;
+  }
+
+  .rsvp-btn {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+
+  .venue-card {
+    padding: 8px 12px;
+    max-width: 280px;
+  }
+}
+
 
 
 
