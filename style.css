@@ -262,6 +262,7 @@ h3 {
   font-family: "Great Vibes", cursive;
   font-size: clamp(1.8rem, 5vw, 3rem);
   color: #3b2431;
+  margin-top: 400px;
   margin-bottom: 20px;
   line-height: 1.3;
   font-weight: 400;
@@ -322,8 +323,8 @@ h3 {
 }
 
 .hero-image-frame {
-  max-width: 500px;
-  width: 100%;
+  max-width: 420px;
+  width: 70%;
   border-radius: var(--card-radius);
   /* Square shape with subtle rounding */
   overflow: hidden;
@@ -767,6 +768,7 @@ h3 {
   letter-spacing: 0.15em;
   color: #b18a96;
   margin-bottom: 12px;
+
 }
 
 .rsvp-buttons {
@@ -803,7 +805,7 @@ h3 {
 }
 
 .venue-info {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .venue-info h3 {
@@ -1015,8 +1017,8 @@ h3 {
   }
 
   .hero-image-frame {
-    max-width: 320px;
-    padding: 10px;
+    max-width: 270px;
+    padding: 8px;
   }
 
   .ganesh-main-text {
@@ -1373,12 +1375,12 @@ h3 {
   #page-2 .ganesha-icon img {
     width: 34px !important;
     height: auto !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 20px !important;
   }
 
   #page-2 .sanskrit-heading {
     font-size: 0.68rem;
-    margin-bottom: 3px;
+    margin-bottom: 15px;
     letter-spacing: -0.3px;
     white-space: nowrap;
   }
@@ -1386,28 +1388,28 @@ h3 {
   #page-2 .sanskrit-mantra {
     font-size: 0.8rem;
     line-height: 1.35;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
   }
 
   #page-2 .blessing-line {
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     margin-bottom: 5px;
     line-height: 1.3;
   }
 
   #page-2 .blessings-page strong {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     font-weight: 700;
   }
 
   #page-2 .ashirvad-line {
-    font-size: 0.72rem;
-    margin-top: 4px;
+    font-size: 0.92rem;
+    margin-top: 20px;
     margin-bottom: 2px;
   }
 
   #page-2 .parent-names {
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     margin-bottom: 4px;
     line-height: 1.3;
   }
@@ -1417,13 +1419,13 @@ h3 {
   }
 
   #page-2 .host-name {
-    font-size: 1.05rem;
-    margin-top: 8px;
+    font-size: 1.28rem;
+    margin-top: 20px;
     margin-bottom: 3px;
   }
 
   #page-2 .invitation-text {
-    font-size: 0.74rem;
+    font-size: 0.90rem;
     line-height: 1.35;
     max-width: 320px;
     margin: 0 auto;
@@ -1453,6 +1455,7 @@ h3 {
   .rsvp-label {
     font-size: 0.78rem;
     margin-bottom: 8px;
+    margin-top: -50px;
   }
 
   .rsvp-contact {
@@ -1477,6 +1480,13 @@ h3 {
   .venue-info h3 {
     font-size: 1.45rem;
     margin-bottom: 6px;
+  }
+
+  .venue-heading,
+  h2:nth-of-type(2),
+  .page-content>div:has(.venue-card) {
+    margin-top: 64px !important;
+    /* Adjusts clearance above Venue */
   }
 
   .venue-card {
@@ -1585,6 +1595,52 @@ h3 {
   }
 }
 
+/* 1. Global Viewport & Body Scroll Lock */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;                /* Disables page elasticity and global scroll */
+  overscroll-behavior: none;       /* Prevents iOS pull-to-refresh & scroll bouncing */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 2. Consistent Fullscreen Page Layout for Both iOS & Android */
+.page.fullscreen,
+#page-2, #page-3, #page-5 {
+  width: 100%;
+  /* Fallback for older browsers -> Exact dynamic height for mobile browsers */
+  height: 100vh;
+  height: 100svh;                  /* Ensures perfect fit on iPhone with bottom bars open */
+  height: 100dvh;
+  /* overflow: hidden !important;     Disables scrolling per page */
+  box-sizing: border-box;
+  
+  /* Flexbox Vertical Center Alignment */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;         /* Balances top and bottom gaps evenly */
+  align-items: center;
+  
+  /* Safe-Area Insets (Fixes large top gap on Samsung hole-punch displays & iPhone notch/dynamic island) */
+  padding-top: max(16px, env(safe-area-inset-top)) !important;
+  padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+/* 3. Compact Content Container */
+.page-content {
+  width: 100%;
+  max-width: 480px;                /* Keeps layout compact across all screens */
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* Evenly spreads content top-to-bottom */
+  align-items: center;
+  box-sizing: border-box;
+}
 
 
 
