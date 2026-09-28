@@ -15,7 +15,7 @@ const pages = document.querySelectorAll('.page');
 const navDots = document.querySelectorAll('.nav-dot');
 let currentPageIndex = 0;
 let isTransitioning = false;
-const transitionDuration = 1000; // Match CSS transition
+const transitionDuration = 600; // Match CSS transition
 
 // Reveal Animations using IntersectionObserver
 const revealObserver = new IntersectionObserver((entries) => {
@@ -37,40 +37,37 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 pages.forEach(page => revealObserver.observe(page));
 
-// Scroll & transition tracking
-let boundaryDeltaY = 0;
-let boundaryTimer = null;
-let lastScrollTime = 0;
+// Internal scroll & transition boundary tracking
+let reachedBottomTime = 0;
+let reachedTopTime = 0;
 
-// Listen to scroll events on each page to track internal scroll activity
+// Listen to scroll events on each page to track when edge is reached
 pages.forEach(page => {
   page.addEventListener('scroll', () => {
-    lastScrollTime = Date.now();
+    const isAtBottom = (page.scrollTop + page.clientHeight) >= (page.scrollHeight - 15);
+    const isAtTop = page.scrollTop <= 10;
+
+    if (!isAtBottom) {
+      reachedBottomTime = 0;
+    } else if (reachedBottomTime === 0) {
+      reachedBottomTime = Date.now();
+    }
+
+    if (!isAtTop) {
+      reachedTopTime = 0;
+    } else if (reachedTopTime === 0) {
+      reachedTopTime = Date.now();
+    }
   }, { passive: true });
 });
-
-// Helper: Calculate whether active page can scroll internally
-function getScrollMetrics(element) {
-  if (!element) {
-    return { canScrollDown: false, canScrollUp: false, isScrollable: false, scrollTop: 0, maxScroll: 0 };
-  }
-  const scrollTop = element.scrollTop;
-  const maxScroll = Math.max(0, element.scrollHeight - element.clientHeight);
-  const tolerance = 6; // px tolerance for subpixel/zoom rounding
-
-  const isScrollable = maxScroll > tolerance;
-  const canScrollDown = isScrollable && scrollTop < maxScroll - tolerance;
-  const canScrollUp = isScrollable && scrollTop > tolerance;
-
-  return { canScrollDown, canScrollUp, isScrollable, scrollTop, maxScroll };
-}
 
 // Refined switchPage trigger
 function switchPage(index) {
   if (index < 0 || index >= pages.length || index === currentPageIndex || isTransitioning) return;
 
   isTransitioning = true;
-  boundaryDeltaY = 0;
+  reachedBottomTime = 0;
+  reachedTopTime = 0;
 
   // Update nav dots
   navDots.forEach(dot => dot.classList.remove('active'));
@@ -103,7 +100,6 @@ function switchPage(index) {
 
   setTimeout(() => {
     isTransitioning = false;
-    boundaryDeltaY = 0;
   }, transitionDuration);
 }
 
@@ -124,68 +120,68 @@ window.addEventListener('mousemove', (e) => {
 // Initial state
 pages[0].classList.add('active');
 
-// Wheel / Scroll Handling with Internal Scroll Protection
+// Wheel / Scroll Handling: Scroll within page first, then transition across pages
 window.addEventListener('wheel', (e) => {
   clearAutoScrollTimer();
   if (isTransitioning) return;
+  if (Math.abs(e.deltaY) < 10) return; // Ignore micro jitter
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
-  const { canScrollDown, canScrollUp, isScrollable } = getScrollMetrics(activePage);
+  const maxScroll = Math.max(0, activePage.scrollHeight - activePage.clientHeight);
+  const isScrollable = maxScroll > 15;
 
   if (e.deltaY > 0) {
     // Scrolling DOWN
-    if (canScrollDown) {
-      // Content has room to scroll down: allow native scrolling and keep track of scroll activity
-      boundaryDeltaY = 0;
-      lastScrollTime = Date.now();
+    if (!isScrollable) {
+      switchPage(currentPageIndex + 1);
       return;
     }
 
-    // User is at the bottom of the page (or page is not scrollable).
-    // Prevent accidental overshoot immediately after finishing internal scroll:
-    if (isScrollable && (Date.now() - lastScrollTime < 450)) {
-      boundaryDeltaY = 0;
+    const isAtBottom = (activePage.scrollTop + activePage.clientHeight) >= (activePage.scrollHeight - 15);
+
+    if (!isAtBottom) {
+      // Still room to scroll down within current page
+      reachedBottomTime = 0;
       return;
     }
 
-    // Accumulate boundary scroll delta for intentional transition
-    boundaryDeltaY += e.deltaY;
-    clearTimeout(boundaryTimer);
-    boundaryTimer = setTimeout(() => {
-      boundaryDeltaY = 0;
-    }, 350);
+    // At bottom: record arrival time if not already recorded
+    if (reachedBottomTime === 0) {
+      reachedBottomTime = Date.now();
+      return;
+    }
 
-    const threshold = isScrollable ? 100 : 50;
-    if (boundaryDeltaY >= threshold) {
-      boundaryDeltaY = 0;
+    // Advance to next page once reached bottom and continuing to scroll
+    if (Date.now() - reachedBottomTime >= 120) {
+      reachedBottomTime = 0;
       switchPage(currentPageIndex + 1);
     }
   } else if (e.deltaY < 0) {
     // Scrolling UP
-    if (canScrollUp) {
-      // Content has room to scroll up: allow native scrolling
-      boundaryDeltaY = 0;
-      lastScrollTime = Date.now();
+    if (!isScrollable) {
+      switchPage(currentPageIndex - 1);
       return;
     }
 
-    // User is at the top of the page (or page is not scrollable).
-    if (isScrollable && (Date.now() - lastScrollTime < 450)) {
-      boundaryDeltaY = 0;
+    const isAtTop = activePage.scrollTop <= 10;
+
+    if (!isAtTop) {
+      // Still room to scroll up within current page
+      reachedTopTime = 0;
       return;
     }
 
-    boundaryDeltaY += Math.abs(e.deltaY);
-    clearTimeout(boundaryTimer);
-    boundaryTimer = setTimeout(() => {
-      boundaryDeltaY = 0;
-    }, 350);
+    // At top: record arrival time if not already recorded
+    if (reachedTopTime === 0) {
+      reachedTopTime = Date.now();
+      return;
+    }
 
-    const threshold = isScrollable ? 100 : 50;
-    if (boundaryDeltaY >= threshold) {
-      boundaryDeltaY = 0;
+    // Advance to previous page once reached top and continuing to scroll
+    if (Date.now() - reachedTopTime >= 120) {
+      reachedTopTime = 0;
       switchPage(currentPageIndex - 1);
     }
   }
@@ -199,10 +195,11 @@ document.addEventListener('keydown', (e) => {
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
-  const { canScrollDown, canScrollUp } = getScrollMetrics(activePage);
+  const maxScroll = Math.max(0, activePage.scrollHeight - activePage.clientHeight);
+  const isScrollable = maxScroll > 15;
 
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    if (canScrollDown) {
+    if (isScrollable && (activePage.scrollTop + activePage.clientHeight) < (activePage.scrollHeight - 15)) {
       e.preventDefault();
       activePage.scrollBy({ top: e.key === ' ' || e.key === 'PageDown' ? 300 : 100, behavior: 'smooth' });
       return;
@@ -210,7 +207,7 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     switchPage(currentPageIndex + 1);
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    if (canScrollUp) {
+    if (isScrollable && activePage.scrollTop > 10) {
       e.preventDefault();
       activePage.scrollBy({ top: e.key === 'PageUp' ? -300 : -100, behavior: 'smooth' });
       return;
@@ -220,7 +217,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Touch / Swipe Navigation with Internal Scroll Protection
+// Touch / Swipe Navigation: Scroll within page first, then transition across pages
 let touchStartY = 0;
 let touchStartX = 0;
 let touchStartScrollTop = 0;
@@ -248,29 +245,39 @@ document.addEventListener('touchend', (e) => {
 
   // Ignore horizontal swipes
   if (Math.abs(diffX) > Math.abs(diffY)) return;
+  if (Math.abs(diffY) < 35) return;
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
-  const currentScrollTop = activePage.scrollTop;
-  const scrollDiff = Math.abs(currentScrollTop - touchStartScrollTop);
+  const maxScroll = Math.max(0, activePage.scrollHeight - activePage.clientHeight);
+  const isScrollable = maxScroll > 15;
 
-  // If internal scrolling occurred during this gesture, stay on current page
-  if (scrollDiff > 8) {
-    return;
-  }
+  // Swiping UP -> scrolling DOWN
+  if (diffY > 35) {
+    if (!isScrollable) {
+      switchPage(currentPageIndex + 1);
+      return;
+    }
 
-  const { canScrollDown, canScrollUp } = getScrollMetrics(activePage);
+    const startedNearBottom = touchStartScrollTop >= maxScroll - 20;
+    const isAtBottom = (activePage.scrollTop + activePage.clientHeight) >= (activePage.scrollHeight - 20);
 
-  // Swiping UP -> intended to scroll down
-  if (diffY > 60) {
-    if (!canScrollDown) {
+    if (startedNearBottom || isAtBottom) {
       switchPage(currentPageIndex + 1);
     }
   }
-  // Swiping DOWN -> intended to scroll up
-  else if (diffY < -60) {
-    if (!canScrollUp) {
+  // Swiping DOWN -> scrolling UP
+  else if (diffY < -35) {
+    if (!isScrollable) {
+      switchPage(currentPageIndex - 1);
+      return;
+    }
+
+    const startedNearTop = touchStartScrollTop <= 15;
+    const isAtTop = activePage.scrollTop <= 15;
+
+    if (startedNearTop || isAtTop) {
       switchPage(currentPageIndex - 1);
     }
   }
