@@ -1,12 +1,14 @@
 // Loading screen
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
-  setTimeout(() => {
-    loader.classList.add('hidden');
+  if (loader) {
     setTimeout(() => {
-      loader.style.display = 'none';
-    }, 500);
-  }, 1500);
+      loader.classList.add('hidden');
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 500);
+    }, 1500);
+  }
 });
 
 // Navigation management
@@ -25,10 +27,7 @@ const revealObserver = new IntersectionObserver((entries) => {
       elements.forEach((el, i) => {
         setTimeout(() => el.classList.add('animated'), i * 150);
       });
-      // Optionally unobserve if you only want it to run once
-      // revealObserver.unobserve(entry.target);
     } else {
-      // Reset animations when leaving page (optional, based on preference)
       const elements = entry.target.querySelectorAll('.animate-on-scroll');
       elements.forEach(el => el.classList.remove('animated'));
     }
@@ -82,14 +81,15 @@ function switchPage(index) {
   }
 
   // Fade out old page
-  oldPage.classList.remove('active');
+  if (oldPage) oldPage.classList.remove('active');
 
   // Fade in new page
-  newPage.classList.add('active');
+  if (newPage) newPage.classList.add('active');
 
   currentPageIndex = index;
 
   // Update Scroll to Top button visibility
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
   if (scrollTopBtn) {
     if (currentPageIndex > 0) {
       scrollTopBtn.classList.add('show');
@@ -117,23 +117,30 @@ window.addEventListener('mousemove', (e) => {
   });
 });
 
-// Initial state
-pages[0].classList.add('active');
+// Initial state setup
+if (pages.length > 0) {
+  pages[0].classList.add('active');
+}
 
-// Wheel / Scroll Handling: Scroll within page first, then transition across pages
+// Wheel / Scroll Handling
 window.addEventListener('wheel', (e) => {
-  clearAutoScrollTimer();
   if (isTransitioning) return;
-  if (Math.abs(e.deltaY) < 10) return; // Ignore micro jitter
+  if (Math.abs(e.deltaY) < 10) return;
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
+
+  // BLOCK SCROLLING DOWN FROM PAGE 1 (Index 0)
+  // Page 2 can only be opened via the "Open Invitation" button
+  if (currentPageIndex === 0 && e.deltaY > 0) {
+    return;
+  }
 
   const maxScroll = Math.max(0, activePage.scrollHeight - activePage.clientHeight);
   const isScrollable = maxScroll > 15;
 
   if (e.deltaY > 0) {
-    // Scrolling DOWN
+    // Scrolling DOWN (Pages 2 through 6)
     if (!isScrollable) {
       switchPage(currentPageIndex + 1);
       return;
@@ -142,18 +149,15 @@ window.addEventListener('wheel', (e) => {
     const isAtBottom = (activePage.scrollTop + activePage.clientHeight) >= (activePage.scrollHeight - 15);
 
     if (!isAtBottom) {
-      // Still room to scroll down within current page
       reachedBottomTime = 0;
       return;
     }
 
-    // At bottom: record arrival time if not already recorded
     if (reachedBottomTime === 0) {
       reachedBottomTime = Date.now();
       return;
     }
 
-    // Advance to next page once reached bottom and continuing to scroll
     if (Date.now() - reachedBottomTime >= 120) {
       reachedBottomTime = 0;
       switchPage(currentPageIndex + 1);
@@ -168,18 +172,15 @@ window.addEventListener('wheel', (e) => {
     const isAtTop = activePage.scrollTop <= 10;
 
     if (!isAtTop) {
-      // Still room to scroll up within current page
       reachedTopTime = 0;
       return;
     }
 
-    // At top: record arrival time if not already recorded
     if (reachedTopTime === 0) {
       reachedTopTime = Date.now();
       return;
     }
 
-    // Advance to previous page once reached top and continuing to scroll
     if (Date.now() - reachedTopTime >= 120) {
       reachedTopTime = 0;
       switchPage(currentPageIndex - 1);
@@ -189,7 +190,6 @@ window.addEventListener('wheel', (e) => {
 
 // Keyboard Navigation
 document.addEventListener('keydown', (e) => {
-  clearAutoScrollTimer();
   if (isTransitioning) return;
 
   const activePage = pages[currentPageIndex];
@@ -217,14 +217,13 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Touch / Swipe Navigation: Scroll within page first, then transition across pages
+// Touch / Swipe Navigation
 let touchStartY = 0;
 let touchStartX = 0;
 let touchStartScrollTop = 0;
 let isTouchActive = false;
 
 document.addEventListener('touchstart', (e) => {
-  clearAutoScrollTimer();
   if (e.touches.length !== 1) return;
   touchStartY = e.touches[0].clientY;
   touchStartX = e.touches[0].clientX;
@@ -234,6 +233,7 @@ document.addEventListener('touchstart', (e) => {
   touchStartScrollTop = activePage ? activePage.scrollTop : 0;
 }, { passive: true });
 
+// Touch / Swipe Navigation
 document.addEventListener('touchend', (e) => {
   if (!isTouchActive || isTransitioning) return;
   isTouchActive = false;
@@ -243,18 +243,23 @@ document.addEventListener('touchend', (e) => {
   const diffY = touchStartY - touchEndY;
   const diffX = touchStartX - touchEndX;
 
-  // Ignore horizontal swipes
   if (Math.abs(diffX) > Math.abs(diffY)) return;
   if (Math.abs(diffY) < 35) return;
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
+  // BLOCK SWIPING UP ON PAGE 1 (Index 0)
+  // Page 2 can only be opened via the "Open Invitation" button
+  if (currentPageIndex === 0 && diffY > 35) {
+    return;
+  }
+
   const maxScroll = Math.max(0, activePage.scrollHeight - activePage.clientHeight);
   const isScrollable = maxScroll > 15;
 
-  // Swiping UP -> scrolling DOWN
   if (diffY > 35) {
+    // Swiping UP -> scrolling DOWN (Pages 2 through 6)
     if (!isScrollable) {
       switchPage(currentPageIndex + 1);
       return;
@@ -266,9 +271,8 @@ document.addEventListener('touchend', (e) => {
     if (startedNearBottom || isAtBottom) {
       switchPage(currentPageIndex + 1);
     }
-  }
-  // Swiping DOWN -> scrolling UP
-  else if (diffY < -35) {
+  } else if (diffY < -35) {
+    // Swiping DOWN -> scrolling UP
     if (!isScrollable) {
       switchPage(currentPageIndex - 1);
       return;
@@ -287,100 +291,87 @@ document.addEventListener('touchend', (e) => {
 navDots.forEach((dot, index) => {
   dot.addEventListener('click', (e) => {
     e.preventDefault();
-    clearAutoScrollTimer();
     switchPage(index);
   });
 });
 
-// Auto-scroll from Page 1 to Page 2 after 5s inactivity
-let autoScrollTimer;
-const AUTO_SCROLL_DELAY = 5000; // 5 seconds
-
-function startAutoScrollTimer() {
-  autoScrollTimer = setTimeout(() => {
-    // Only auto-scroll if we are still on the first page
-    if (currentPageIndex === 0 && !isTransitioning) {
-      switchPage(1);
-    }
-  }, AUTO_SCROLL_DELAY);
-}
-
-function clearAutoScrollTimer() {
-  if (autoScrollTimer) {
-    clearTimeout(autoScrollTimer);
-    autoScrollTimer = null;
-
-    // Remove listeners once timer is cleared to save resources
-    window.removeEventListener('scroll', clearAutoScrollTimer);
-    window.removeEventListener('touchstart', clearAutoScrollTimer);
-    window.removeEventListener('mousedown', clearAutoScrollTimer);
-    window.removeEventListener('keydown', clearAutoScrollTimer);
-  }
-}
-
-// Start timer on load
-window.addEventListener('load', () => {
-  startAutoScrollTimer();
-
-  // Clear timer on any user interaction
-  window.addEventListener('scroll', clearAutoScrollTimer);
-  window.addEventListener('touchstart', clearAutoScrollTimer);
-  window.addEventListener('mousedown', clearAutoScrollTimer);
-  window.addEventListener('keydown', clearAutoScrollTimer);
-});
-
-// Scroll to Top Functionality
+// Scroll to Top Button Click Handler
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if (scrollTopBtn) {
-  scrollTopBtn.addEventListener('click', () => {
+  scrollTopBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Guard against triggering during an active page transition
     if (isTransitioning) return;
+
+    // Switch smoothly back to Page 1 (Index 0)
     switchPage(0);
   });
 }
-// Music Control Logic
-const musicToggle = document.getElementById('musicToggle');
-const bgMusic = document.getElementById('bgMusic');
-let isPlaying = false;
 
-if (musicToggle && bgMusic) {
-  musicToggle.addEventListener('click', () => {
-    if (isPlaying) {
-      bgMusic.pause();
-      musicToggle.classList.remove('playing');
-    } else {
-      bgMusic.play().catch(e => console.log("Audio play blocked by browser", e));
-      musicToggle.classList.add('playing');
+// --- AUDIO & BUTTON CONTROLS ---
+document.addEventListener('DOMContentLoaded', () => {
+  const enterBtn = document.getElementById('enter-btn');
+  const audio = document.getElementById('wedding-audio');
+  const musicBtn = document.getElementById('music-btn');
+
+  // 1. Open Invitation Button -> Plays Audio + Goes directly to Page 2
+  if (enterBtn) {
+    enterBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (audio) {
+        audio.muted = false;
+        audio.volume = 1.0;
+        audio.play().then(() => {
+          if (musicBtn) musicBtn.classList.remove('is-muted');
+        }).catch((err) => console.log("Audio start blocked:", err));
+      }
+
+      switchPage(1);
+    });
+  }
+
+  // 2. Music Icon Toggle -> Mute / Unmute Cleanly
+  if (musicBtn) {
+    musicBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!audio) return;
+
+      if (!audio.paused) {
+        audio.pause();
+        musicBtn.classList.add('is-muted');
+      } else {
+        audio.muted = false;
+        audio.volume = 1.0;
+        audio.play().then(() => {
+          musicBtn.classList.remove('is-muted');
+        }).catch((err) => console.log("Play failed:", err));
+      }
+    });
+  }
+
+  // 3. Pause Audio when browser tab goes to background
+  document.addEventListener('visibilitychange', () => {
+    if (!audio) return;
+
+    if (document.hidden) {
+      audio.pause();
+    } else if (musicBtn && !musicBtn.classList.contains('is-muted')) {
+      audio.play().catch(() => {});
     }
-    isPlaying = !isPlaying;
   });
-}
 
-// Contact/RSVP Form Simulation
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const btn = contactForm.querySelector('button');
-    const originalText = btn.textContent;
-
-    // Disable button and show loading state
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
-    // Simulate API call
-    setTimeout(() => {
-      btn.textContent = 'Message Sent! ✨';
-      contactForm.reset();
-
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }, 3000);
-    }, 1500);
+  window.addEventListener('pagehide', () => {
+    if (audio) audio.pause();
   });
-}
+});
 
-// Countdown Timer
+// Countdown Timer Setup
 const weddingDate = new Date('December 4, 2026 10:00:00').getTime();
 
 function updateCountdown() {
@@ -411,5 +402,3 @@ function updateCountdown() {
 
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
-
-// Countdown Timer

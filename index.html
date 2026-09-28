@@ -25,19 +25,18 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Main content -->
   <div class="app-container" id="app">
-    <!-- Music Toggle -->
-    <div class="music-control" id="musicToggle">
-      <div class="music-icon">🎵</div>
-      <div class="music-waves">
-        <span></span><span></span><span></span><span></span>
-      </div>
-    </div>
-    <audio id="bgMusic" loop>
-      <source src="audio.mp3" type="audio/mpeg">
+    <!-- Unified Music Control Button -->
+    <button id="music-btn" class="music-control" aria-label="Toggle Audio">
+      <span class="music-icon">🎵</span>
+    </button>
+  
+    <audio id="wedding-audio" loop preload="auto" playsinline>
+      <source src="audio.mp3" type="audio/mpeg" />
     </audio>
+  
     <!-- Navigation dots -->
     <nav class="nav-dots" aria-label="Page navigation">
       <a href="#page-1" class="nav-dot active" data-page="1" aria-label="Go to Page 1"></a>
@@ -47,15 +46,19 @@
       <a href="#page-5" class="nav-dot" data-page="5" aria-label="Go to Page 5"></a>
       <a href="#page-6" class="nav-dot" data-page="6" aria-label="Go to Page 6"></a>
     </nav>
+  
     <!-- Page 1: Ganesh Blessings -->
     <section class="page fullscreen" id="page-1">
       <div class="page-content">
         <div class="ganesh-section">
           <h1 class="ganesh-main-text animate-on-scroll fade-in-up floating">Bless us by your gracious presence</h1>
           <p class="ganesh-mantra animate-on-scroll fade-in-up animate-delay-1">ॐ श्री गणेशाय नमः</p>
+  
+          <!-- Replaced "Scroll to continue" with Open Invitation Button -->
           <div class="scroll-hint animate-on-scroll fade-in-up animate-delay-2">
-            <span>Scroll to continue</span>
-            <div class="scroll-arrow">↓</div>
+            <button id="enter-btn" class="open-invitation-btn">
+              <strong>Open Invitation ↓</strong>
+            </button>
           </div>
         </div>
       </div>

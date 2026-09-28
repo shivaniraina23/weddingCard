@@ -33,6 +33,7 @@ body {
   background: var(--bg-silk);
 }
 
+
 body {
   font-family: "Cormorant Garamond", serif;
   color: var(--text-main);
@@ -228,12 +229,112 @@ h3 {
   z-index: 0;
 }
 
-.ganesh-section {
-  text-align: center;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
+
+/* Ensure all hero text containers stretch full width and center text */
+.ganesh-section,
+.hero-content,
+.page-1-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
 }
+
+/* Explicitly target the blessing header ("Bless us by your gracious presence") */
+.ganesh-section h1,
+.ganesh-section h2,
+.ganesh-section p,
+.blessing-text,
+.mantra-text {
+  text-align: center !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+.open-invitation-btn {
+  /* Positioning & Base Aesthetics */
+  margin-top: 10px;
+  padding: 12px 32px;
+  font-size: 1.05rem;
+  font-weight: 800; /* Extra Bold */
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a81339; /* Dark Rose-Pink Text for High Contrast */
+  
+  /* Light Pink Gradient Background */
+  background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+  border: 2px solid #ffb3c1; /* Soft Pink Border */
+  border-radius: 30px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  
+  /* Vibrant Pink Pulsing Glow */
+  box-shadow: 0 4px 18px rgba(255, 105, 180, 0.45), 
+              0 0 20px rgba(255, 77, 109, 0.3);
+
+  /* Gentle Pulsing Animation */
+  animation: pink-pulse-glow 2.2s infinite ease-in-out;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Golden Streak Shimmer Effect Sweeping Across */
+.open-invitation-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    60deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.85), /* Metallic Gold Streak */
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: button-shimmer 3s infinite;
+}
+
+/* Hover & Active States */
+.open-invitation-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 25px rgba(255, 105, 180, 0.85), 
+              0 0 30px rgba(255, 77, 109, 0.6);
+  background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c1 100%);
+  border-color: #d4af37; /* Gold accent border on hover */
+  color: #800f2f;
+}
+
+.open-invitation-btn:active {
+  transform: scale(0.96);
+}
+
+/* Vibrant Pink Glow Pulse Animation */
+@keyframes pink-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 18px rgba(255, 105, 180, 0.35), 
+                0 0 0px rgba(255, 105, 180, 0);
+  }
+  50% {
+    box-shadow: 0 6px 24px rgba(255, 105, 180, 0.85), 
+                0 0 18px rgba(255, 77, 109, 0.65);
+  }
+}
+
+@keyframes button-shimmer {
+  0% { left: -60%; }
+  25% { left: 140%; }
+  100% { left: 140%; }
+}
+
 
 .ganesh-icon {
   display: inline-flex;
@@ -274,7 +375,7 @@ h3 {
   margin-bottom: 40px;
 }
 
-.scroll-hint {
+/* .scroll-hint {
   margin-top: 60px;
   display: flex;
   flex-direction: column;
@@ -287,7 +388,34 @@ h3 {
 .scroll-arrow {
   animation: bounce 2s infinite;
   font-size: 1.5rem;
+} */
+
+.open-invitation-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #7a4f60;
+  color: #7a4f60;
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(122, 79, 96, 0.15);
+  transition: all 0.25s ease;
+  margin-top: 15px;
 }
+
+.open-invitation-btn:active {
+  transform: scale(0.95);
+  background: #7a4f60;
+  color: #ffffff;
+}
+
+/* Locks scrolling on Page 1 until button is clicked */
+/* body.no-scroll {
+  overflow: hidden !important;
+  touch-action: none !important;
+} */
 
 @keyframes bounce {
 
@@ -452,6 +580,49 @@ h3 {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--glass-border);
   }
+
+  /* Base floating circle button */
+#music-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  overflow: hidden; /* Prevents overflow */
+}
+
+/* Remove any extra background images or pseudo-elements causing duplicates */
+#music-btn::before,
+#music-btn::after,
+.music-icon::before,
+.music-icon::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Clean text icon size */
+.music-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  display: inline-block;
+  transition: opacity 0.2s ease;
+}
+
+/* Visual cue when muted: simply dims the single icon */
+#music-btn.is-muted .music-icon {
+  opacity: 0.35;
+  filter: grayscale(100%);
+}
+
 
   .nav-dots {
     right: 8px;
@@ -725,6 +896,38 @@ h3 {
 /* Page 4: RSVP */
 #page-4 {
   background: linear-gradient(135deg, #ffeef6 0%, #fff8fb 100%);
+}
+
+/* 1. Reset Page 5 vertical alignment so elements don't stretch apart */
+#page-5 .page-content {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important; /* Clusters content centrally instead of stretching */
+  align-items: center !important;
+  gap: 12px !important;              /* Controls uniform tight spacing between sections */
+}
+
+/* 2. Remove bottom margin from RSVP title */
+#page-5 h1,
+#page-5 .rsvp-title {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+/* 3. Remove top margin from CONTACT label to pull it up */
+#page-5 .contact-subtitle,
+#page-5 .contact-label,
+#page-5 p:has(+ .call-button) {
+  margin-top: 4px !important;        /* Keeps contact right below RSVP */
+  margin-bottom: 12px !important;
+}
+
+/* 4. Keep call buttons tight together */
+#page-5 .contact-list,
+#page-5 .buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px !important;                /* Gap between individual call buttons */
 }
 
 .rsvp-page {
