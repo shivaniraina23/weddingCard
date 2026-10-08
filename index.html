@@ -46,6 +46,43 @@
       <a href="#page-5" class="nav-dot" data-page="5" aria-label="Go to Page 5"></a>
       <a href="#page-6" class="nav-dot" data-page="6" aria-label="Go to Page 6"></a>
     </nav>
+
+    <!-- Floating Top-Right Hamburger Menu Button -->
+<button id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Toggle Navigation">
+  <span id="menu-icon">☰</span>
+</button>
+
+<!-- Navigation Modal Overlay -->
+<div id="nav-modal" class="nav-modal">
+  <div class="nav-modal-card">
+    <button id="nav-close-btn" class="nav-close-btn">&times;</button>
+    
+    <div class="nav-header-brand">
+      <span class="nav-initials">S &amp; A</span>
+      <span class="nav-hashtag">#ShivaniWedsAshwani</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#page-1" onclick="goToHome(event)">Home</a></li>
+      <li><a href="#page-4" onclick="goToWeddingInfo(event)">Wedding Details</a></li>
+      <!-- <li><a href="#page-3" onclick="closeNavMenu()">Gallery</a></li> -->
+    </ul>
+
+    <div class="nav-rsvp-wrapper">
+      <a href="#page-5" class="nav-rsvp-btn" onclick="goToBlessings(event)">
+        <span>✨</span> RSVP <span>❤️</span>
+      </a>
+    </div>
+
+    <div class="nav-footer-hashtag">
+      #ShivaniWedsAshwani
+    </div>
+  </div>
+</div>
+
+
+
+
   
     <!-- Page 1: Ganesh Blessings -->
     <section class="page fullscreen" id="page-1">
@@ -141,50 +178,48 @@
 
         </div>
 
-        <p class="hero-subtext animate-on-scroll fade-in-up animate-delay-1">Save the Date</p>
+        <p class="hero-subtext animate-on-scroll fade-in-up animate-delay-1">✨ Save the Date ✨</p>
         <p class="hero-date-location animate-on-scroll fade-in-up animate-delay-2">
           4th December, 2026 · 10:00 AM<br />
-          Baru Resorts, Jammu, India <br><br>
+          <h4>📍 Baru Resorts, Jammu, India</h4> <br><br>
+          
         </p>
+
+
           <!-- Countdown Timer -->
           <div class="countdown-container animate-on-scroll fade-in-up animate-delay-3">
-            <div class="countdown-item">
-              <span id="days">00</span>
-              <span class="label">Days</span>
+            <div class="countdown-timer">
+              <div class="countdown-item">
+                <span id="days">00</span>
+                <span class="label">Days</span>
+              </div>
+              <div class="countdown-item">
+                <span id="hours">00</span>
+                <span class="label">Hours</span>
+              </div>
+              <div class="countdown-item">
+                <span id="minutes">00</span>
+                <span class="label">Mins</span>
+              </div>
+              <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span class="label">Secs</span>
+              </div>
             </div>
-            <div class="countdown-item">
-              <span id="hours">00</span>
-              <span class="label">Hours</span>
-            </div>
-            <div class="countdown-item">
-              <span id="minutes">00</span>
-              <span class="label">Mins</span>
-            </div>
-            <div class="countdown-item">
-              <span id="seconds">00</span>
-              <span class="label">Secs</span>
-            </div>
+          
+            <p class="countdown-subtitle">❤️ Countdown to our big day ❤️</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Page 4: Schedule -->
-    <section class="page fullscreen" id="page-4">
+    <!-- <section class="page fullscreen" id="page-4">
       <div class="page-content schedule-page">
         <div class="schedule-header">
-          <h2 class="animate-on-scroll fade-in-up">Schedule</h2>
+          <h2 class="animate-on-scroll fade-in-up">🌸 Kashmiri Wedding Ceremonies 🌸</h2>
         </div>
         <div class="schedule-timeline">
-          <!-- <article class="schedule-card animate-on-scroll slide-in-left animate-delay-1">
-            <div class="schedule-icon">🪷</div>
-            <div class="schedule-content">
-              <h3>Garnavay &amp; Satsang</h3>
-              <p class="schedule-date">December 29th, 2026</p>
-              <p class="schedule-time">9:00 AM onwards</p>
-              <p class="schedule-location">At our residence, Durga Nagar, Jammu</p>
-            </div>
-          </article> -->
 
           <article class="schedule-card animate-on-scroll slide-in-right animate-delay-2">
             <div class="schedule-icon"><img src="image copy 5.png" alt="Mehendi Raat" width="40" height="40" /></div>
@@ -194,7 +229,7 @@
               <p class="schedule-time">6:00 PM onwards</p>
               <p class="schedule-location"><a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
                 class="venue-map-link">
-                 Baru Resorts, Bohri Udheywala, Jammu
+                 📍 Baru Resorts, Bohri Udheywala, Jammu
               </a></p>
             </div>
           </article>
@@ -206,7 +241,7 @@
               <p class="schedule-date">Thursday, December 3rd, 2026</p>
               <p class="schedule-time">9:00 AM onwards</p>
               <p class="schedule-location"><a href="https://maps.app.goo.gl/652tNJk8w2yvGoQr9" target="_blank" rel="noopener noreferrer"
-                class="venue-map-link"> Sidhlakshmi Peeth, Lok bhawan Teerathraj, Sector 2, Durga Nagar, Jammu</a></p>
+                class="venue-map-link"> 📍 Sidhlakshmi Peeth, Lok bhawan Teerathraj, Sector 2, Durga Nagar, Jammu</a></p>
             </div>
           </article>
 
@@ -218,103 +253,303 @@
               <p class="schedule-time">10:00 AM onwards</p>
               <p class="schedule-location"><a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
                 class="venue-map-link">
-                 Baru Resorts, Bohri Udheywala, Jammu
+                 📍 Baru Resorts, Bohri Udheywala, Jammu
               </a></p>
             </div>
           </article>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <!-- Page 5: RSVP & Venue -->
-    <section class="page fullscreen" id="page-5">
-      <div class="page-content rsvp-page">
-        <div class="rsvp-header">
-          <h2 class="animate-on-scroll fade-in-up">RSVP</h2>
-        </div>
-        <div class="rsvp-content">
-          <div class="rsvp-contact animate-on-scroll fade-in-up animate-delay-1">
-            <p class="rsvp-label">Contact</p>
-            <div class="rsvp-buttons">
-              <a href="tel:+919086185371" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-2">📞 Call 90861
-                85371</a>
-              <a href="tel:+919469660133" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-3">📞 Call 94696
-                60133</a>
-              <a href="tel:+916006585956" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-4">📞 Call 60065
-                85956</a>
-            </div>
+    <!-- PAGE 4: WEDDING DETAILS -->
+<section class="page fullscreen" id="page-4">
+  <div class="page-content wedding-details-page">
+    
+    <!-- Main Title & Subtitle -->
+    <h2 class="details-title">✨ The Nuptials ✨</h2>
+    <p class="details-subtitle">Your guide to our special celebration!</p>
+
+    <!-- 4 Navigation Pills -->
+    <div class="details-tab-nav">
+      <button class="tab-btn active" onclick="switchDetailTab('schedule-tab', this)">
+        <span>📅</span> Schedule
+      </button>
+      <!-- <button class="tab-btn" onclick="switchDetailTab('venue-tab', this)">
+        <span>📍</span> Venue
+      </button> -->
+      <button class="tab-btn" onclick="switchDetailTab('dresscode-tab', this)">
+        <span>📷</span> Dress Code
+      </button>
+      <button class="tab-btn" onclick="switchDetailTab('travel-tab', this)">
+        <span>🚘</span> Travel
+      </button>
+    </div>
+
+    <!-- TAB 1: SCHEDULE (Kashmiri Wedding Ceremonies) -->
+    <div id="schedule-tab" class="tab-content active-content">
+      <h3 class="ceremony-section-heading">
+        <span></span> Kashmiri Wedding Ceremonies 🌸
+      </h3>
+
+      <div class="ceremonies-container">
+        <!-- Event 1: Musmuchrawun & Mehndi raat -->
+        <div class="ceremony-card">
+          <div class="ceremony-icon">
+            <img src="image copy 5.png" alt="Mehndi Icon" />
           </div>
-          <div class="venue-info animate-on-scroll fade-in-up animate-delay-5">
-            <div class="venue-heading"></div>
-            <h3>Venue</h3>
-            
-            <div class="venue-card">
-              <div class="venue-icon">🏛️</div>
-              <div class="venue-details">
-                <h4>Wedding Venue</h4>
-                <p>📍
-                <a href="https://www.google.com/maps/search/?api=1&query=Baru+Resorts+Jammu" target="_blank" rel="noopener noreferrer"
-                  class="venue-map-link">
-                   Baru Resorts, Jammu
-                </a></p>
-                <p class="venue-note">'Where our forever story begins'</p>
-              </div>
-            </div>
+          <h3 class="ceremony-title">Musmuchrawun &amp; Mehndiraat</h3>
+          <p class="ceremony-date">Wednesday, December 2nd, 2026</p>
+          <p class="ceremony-time">6:00 PM onwards</p>
+          <a href="https://maps.app.goo.gl/EtVfKcSPEXbej9n86" target="_blank" class="ceremony-location">
+            📍 Baru Resorts, Bohri Udheywala, Jammu
+          </a>
+        </div>
+
+        <!-- Event 2: Devgon -->
+        <div class="ceremony-card">
+          <div class="ceremony-icon">
+            <img src="image copy.png" alt="Devgon Icon" />
+          </div>
+          <h3 class="ceremony-title">Devgon</h3>
+          <p class="ceremony-date">Thursday, December 3rd, 2026</p>
+          <p class="ceremony-time">9:00 AM onwards</p>
+          <a href="https://maps.app.goo.gl/sdWdbMURpjuodQkM7" target="_blank" class="ceremony-location">
+            📍 Sidhlakshmi Peeth, Lok bhawan Teerathraj, Sector 2, Durga Nagar, Jammu
+          </a>
+        </div>
+
+        <!-- Event 3: Reception of Barat -->
+        <div class="ceremony-card">
+          <div class="ceremony-icon">
+            <img src="image copy 2.png" alt="Barat Icon" />
+          </div>
+          <h3 class="ceremony-title">Reception of Barat</h3>
+          <p class="ceremony-date">Friday, December 4th, 2026</p>
+          <p class="ceremony-time">10:00 AM onwards</p>
+          <a href="https://maps.app.goo.gl/EtVfKcSPEXbej9n86" target="_blank" class="ceremony-location">
+            📍 Baru Resorts, Bohri Udheywala, Jammu
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: VENUE -->
+    <!-- <div id="venue-tab" class="tab-content">
+      <h3 class="ceremony-section-heading"><span>📍</span> Venue Details</h3>
+      <div class="ceremony-card">
+        <h3 class="ceremony-title">Baru Resorts</h3>
+        <p class="ceremony-date">Bohri Udheywala, Jammu</p>
+        <a href="https://maps.google.com" target="_blank" class="ceremony-location">Open in Google Maps</a>
+      </div>
+    </div> -->
+
+    <!-- TAB 3: DRESS CODE -->
+<div id="dresscode-tab" class="tab-content">
+  <h3 class="ceremony-section-heading"><span></span> Dress Code</h3>
+
+  <div class="ceremonies-container">
+    <!-- 1. Mehndiraat -->
+    <div class="ceremony-card">
+      <div class="ceremony-icon">
+        <img src="image copy 5.png" alt="Mehndi Icon" />
+      </div>
+      <h3 class="ceremony-title">Mehndiraat</h3>
+      <p class="ceremony-subtitle-tag">Full Desi Glam</p>
+      <p class="ceremony-description">
+        Go all out with vibrant colors and full glam! Just make sure to wear comfy shoes - we're dancing the night away to continuous Kashmiri Gyawun and Bachkot beats! 💃✨
+      </p>
+    </div>
+
+    <!-- 2. Devgon -->
+    <div class="ceremony-card">
+      <div class="ceremony-icon">
+        <img src="image copy.png" alt="Devgon Icon" />
+      </div>
+      <h3 class="ceremony-title">Devgon</h3>
+      <p class="ceremony-subtitle-tag">Dreamy Pastels</p>
+      <p class="ceremony-description">
+        Think soft, elegant pastel hues for this sacred morning. Pro tip: keep a pack of tissues handy, things are going to get a little emotional! 🥹💖
+      </p>
+    </div>
+
+    <!-- 3. Wedding / Reception of Barat -->
+    <div class="ceremony-card">
+      <div class="ceremony-icon">
+        <img src="image copy 2.png" alt="Barat Icon" />
+      </div>
+      <h3 class="ceremony-title">The Wedding</h3>
+      <p class="ceremony-subtitle-tag">Royal &amp; Glamorous</p>
+      <p class="ceremony-description">
+        Time to bring out your best! Be a little extra, wear that stunning attire, and bring extra tissues - we cannot guarantee a tear-free Varmala! 💍✨
+      </p>
+    </div>
+  </div>
+</div>
+
+    <!-- TAB 4: TRAVEL INFO (NO EMOJIS HERE) -->
+    <div id="travel-tab" class="tab-content">
+      <h3 class="ceremony-section-heading">Travel Info</h3>
+
+      <div class="ceremonies-container">
+        <div class="ceremony-card">
+          <h3 class="ceremony-title">By Air</h3>
+          <p class="ceremony-subtitle-tag">Jammu Airport (IXJ)</p>
+          <p class="ceremony-date">Civil Airport, Satwari, Raipur Satwari, Jammu, Jammu &amp; Kashmir 180003</p>
+          <p class="ceremony-description">
+            Approx. 13–16 km from our home (depending on the route you choose).
+          </p>
+        </div>
+
+        <div class="ceremony-card">
+          <h3 class="ceremony-title">By Train</h3>
+          <p class="ceremony-subtitle-tag">Jammu Tawi Railway Station</p>
+          <p class="ceremony-date">Jammu Tawi, Shakti Nagar, Katra, 180012</p>
+          <p class="ceremony-description">
+            Approx. 12 km from our home.
+          </p>
+        </div>
+
+        <div class="ceremony-card">
+          <h3 class="ceremony-title">By Road</h3>
+          <p class="ceremony-subtitle-tag">National Highway / Interstate</p>
+          <p class="ceremony-description">
+            Well connected! Please expect a few rough patches once you reach Jammu city due to ongoing flyover construction.
+          </p>
+        </div>
+
+        <div class="ceremony-card">
+          <h3 class="ceremony-title">Local Transportation</h3>
+          <p class="ceremony-subtitle-tag">Getting Around</p>
+          <p class="ceremony-description">
+            • Rapido rides are readily available.<br>
+            • Taxis, Auto-rickshaws &amp; Tuk-tuks can be hired directly outside the station and airport.
+          </p>
+          
+          <div class="travel-contact-box">
+            <p class="contact-note">If you face any issue or need assistance, feel free to contact us anytime:</p>
+            <a href="tel:+916006585956" class="travel-phone-btn">
+              Karan Raina (Krishna): <span>+91 60065 85956</span>
+            </a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Page 6: Contact Us -->
-    <section class="page fullscreen" id="page-6">
+  </div>
+</section>
+
+    <!-- PAGE 5: BLESSING BOOK / WISHES -->
+    <section class="page fullscreen" id="page-5">
       <div class="page-content contact-page">
         <div class="contact-header">
-          <h2 class="animate-on-scroll fade-in-up">Contact Us</h2>
-          <p class="animate-on-scroll fade-in-up animate-delay-1">We'd love to hear from you!</p>
+          <h2 class="animate-on-scroll fade-in-up">🌸 RSVP 🌸</h2>
+          <p class="animate-on-scroll fade-in-up animate-delay-1">Leave your warm wishes for Shivani &amp; Ashwani</p>
         </div>
 
         <div class="contact-container animate-on-scroll fade-in-up animate-delay-2">
-          <div class="contact-info">
-            <div class="contact-whatsapp">
-              <h3>Have Questions?</h3>
-              <p>Reach out to us directly on WhatsApp for any queries regarding the events.</p><br>
+          <div class="blessing-card-container">
+            <form id="custom-blessing-form" onsubmit="sendWishesToWhatsApp(event)">
               
-              <a 
-                href="https://wa.me/919149451381?text=Hi!%20I%20have%20a%20query%20regarding%20the%20wedding%20celebrations." 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="whatsapp-btn"
-              > <h3>
-                💬 Chat with Us on WhatsApp </h3>
-              </a>
-            </div>
-            <!-- <div class="contact-item">
-              <span class="contact-icon">📍</span>
-              <p>Baru Resorts, Jammu, India</p>
-            </div>
-            <div class="contact-item">
-              <span class="contact-icon">✉️</span>
-              <p>shivani.ashwani.wedding@example.com</p> -->
-            <!-- </div> -->
+              <!-- Floating Header Badge -->
+              <div class="blessing-badge">🪷 INVITATION 🪷</div>
+
+              <!-- Name Field -->
+              <div class="blessing-field">
+                <span class="field-tag">From the family of</span>
+                <input 
+                  type="text" 
+                  id="guest-name" 
+                  class="blessing-input" 
+                  placeholder="Your Name / Family Name" 
+                  required 
+                />
+              </div>
+
+              <!-- Interactive Choice Chips -->
+              <div class="blessing-field">
+                <span class="field-tag">Will you be celebrating with us?</span>
+                <div class="attendance-chips">
+                  <label class="chip-option">
+                    <input type="radio" name="attendance" value="Joyfully Attending" checked />
+                    <span class="chip-label">✨ Will Attend</span>
+                  </label>
+                  <label class="chip-option">
+                    <input type="radio" name="attendance" value="Sending Warm Blessings" />
+                    <span class="chip-label">🌸 Warm Wishes</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Note Textarea -->
+              <div class="blessing-field">
+                <span class="field-tag">Your Blessings &amp; Message</span>
+                <textarea 
+                  id="guest-blessing" 
+                  class="blessing-textarea" 
+                  rows="3" 
+                  placeholder="May your journey together be filled with boundless joy and happiness..."
+                ></textarea>
+              </div>
+
+              <!-- Custom Button -->
+              <button type="submit" class="blessing-submit-btn">
+                <span>Send Blessings to Family 🌸</span>
+              </button>
+
+            </form>
           </div>
-
-          <!-- <form class="contact-form">
-            <div class="form-group">
-              <input type="text" placeholder="Your Name" required>
-            </div>
-            <div class="form-group">
-              <textarea placeholder="Your Message" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn-primary">Send Message</button>
-          </form> -->
         </div>
-
-        <footer class="page-footer animate-on-scroll fade-in-up animate-delay-3">
-          <p>With Best Compliments From,</p>
-          <p class="footer-names" style="font-size: 24px; font-weight: bold;">Babli Raina &amp; Shadi Lal Raina</p>
-        </footer>
       </div>
     </section>
+
+<!-- PAGE 6: RSVP (FINAL PAGE) -->
+<section class="page fullscreen" id="page-6">
+  <div class="page-content rsvp-page">
+    <div class="rsvp-header">
+      <h2>🌸 CONTACT US 🌸</h2>
+      <p class="contact-subtitle">We can't wait to celebrate with you!</p>
+    </div>
+    
+    <div class="rsvp-content">
+      <div class="rsvp-contact animate-on-scroll fade-in-up animate-delay-1">
+        <!-- REMOVED: <p class="rsvp-label">Contact Persons</p> -->
+        <div class="rsvp-buttons">
+          <!-- Contact 1 -->
+          <a href="tel:+919086185371" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-2">
+            <span class="contact-name">SH. SHADI LAL RAINA</span>
+            <span class="contact-number">📞 90861 85371</span>
+          </a>
+
+          <!-- Contact 2 -->
+          <a href="tel:+919469660133" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-3">
+            <span class="contact-name">SH. ROOP KRISHAN RAINA</span>
+            <span class="contact-number">📞 94696 60133</span>
+          </a>
+
+          <!-- Contact 3 -->
+          <a href="tel:+916006585956" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-4">
+            <span class="contact-name">KARAN RAINA</span>
+            <span class="contact-number">📞 60065 85956</span>
+          </a>
+
+          <!-- Contact 4 -->
+          <a href="tel:+919149451381" class="rsvp-btn animate-on-scroll fade-in-up animate-delay-5">
+            <span class="contact-name">Shivani Raina</span>
+            <span class="contact-number">📞 91494 51381</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="page-footer animate-on-scroll fade-in-up animate-delay-5" style="margin-top: 30px;">
+      <p>With Best Compliments From,</p>
+      <p class="footer-names" style="font-size: 22px; font-weight: bold;">Babli Raina &amp; Shadi Lal Raina</p>
+    </footer>
+  </div>
+</section>
+
+
+
     <!-- Scroll to Top Button -->
     <div class="scroll-to-top" id="scrollTopBtn">↑</div>
   </div>

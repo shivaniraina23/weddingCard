@@ -51,6 +51,7 @@ h3 {
   letter-spacing: 0.05em;
 }
 
+
 /* Loading Screen */
 .loader {
   position: fixed;
@@ -210,6 +211,26 @@ h3 {
   z-index: 1;
 }
 
+/* Apply Schedule Page Light Pink Background to Pages 2 through 6 */
+#page-2, #page-3, #page-4, #page-5, #page-6,
+#page-2 .page-content, #page-3 .page-content, 
+#page-4 .page-content, #page-5 .page-content, 
+#page-6 .page-content,
+.contact-page, .rsvp-page, .blessings-page, .schedule-page, .hero-page {
+  background: #fff0f3 !important; /* Soft light pink from the schedule page */
+}
+
+/* Ensure Page 1 remains untouched and transparent */
+#page-1 {
+  background-color: transparent !important;
+}
+
+#page-1 .page-content,
+#page-1 .ganesh-section {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Page 1: Ganesh Blessings */
 #page-1 {
   background-image: url('ganesha.jpg');
@@ -336,6 +357,7 @@ h3 {
 }
 
 
+
 .ganesh-icon {
   display: inline-flex;
   align-items: center;
@@ -429,7 +451,7 @@ h3 {
   }
 }
 
-/* Page 2: Hero with Couple Photo */
+/* Page 3: Hero with Couple Photo */
 #page-2 {
   background: linear-gradient(135deg, #fff8fb 0%, #ffeef6 100%);
 }
@@ -549,6 +571,37 @@ h3 {
   letter-spacing: 0.15em;
   color: var(--text-muted);
   margin-top: 8px;
+}
+
+/* Stack timer grid and subtitle vertically */
+.countdown-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Keep the 4 timer boxes side-by-side */
+.countdown-timer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+/* Style the text underneath */
+.countdown-subtitle {
+  width: 100% !important;
+  text-align: center !important;
+  font-family: 'Cinzel', 'Playfair Display', serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  color: #7a0c0c !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  margin-top: 14px !important;
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 768px) {
@@ -692,7 +745,7 @@ h3 {
 
 /* Page 3: Schedule */
 #page-3 {
-  background: linear-gradient(135deg, #fff8fb 0%, #ffeef6 100%);
+  background: linear-gradient(135deg, #ffeef6 0%, #fff8fb 100%);
 }
 
 .schedule-page {
@@ -701,7 +754,7 @@ h3 {
 
 .schedule-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 12px;
 }
 
 .schedule-header h2 {
@@ -711,6 +764,19 @@ h3 {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  margin-bottom: 4px !important;
+}
+
+/* Bring the ritual timeline/cards closer to the header */
+.timeline-container,
+.schedule-content,
+.events-list {
+  margin-top: 5px !important;
+  padding-top: 0 !important;
+}
+
+.event-card:first-child {
+  margin-top: 0 !important; /* Removes excess top margin on the first card */
 }
 
 .schedule-timeline {
@@ -1007,6 +1073,36 @@ h3 {
   background: var(--bg-silk);
 }
 
+/* Stack name and phone number vertically inside RSVP buttons */
+.rsvp-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 12px 20px !important;
+  text-decoration: none !important;
+  gap: 4px !important; /* Spacing between name and number */
+  height: auto !important;
+}
+
+.rsvp-btn .contact-name,
+.rsvp-btn span:first-child {
+  display: block !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
+.rsvp-btn .contact-number,
+.rsvp-btn span:last-child {
+  display: block !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  opacity: 0.9 !important;
+  text-align: center !important;
+}
+
 .venue-info {
   margin-top: 30px;
 }
@@ -1072,6 +1168,142 @@ h3 {
   font-size: 2.8rem;
   color: var(--primary);
   font-weight: 400;
+}
+
+/* Fix RSVP Page Layout & Prevent Overlapping */
+#page-6,
+.rsvp-page {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important; /* Prevents pushing content upward into header */
+  padding-top: 70px !important; /* Creates top breathing room below music button */
+  padding-bottom: 30px !important;
+  box-sizing: border-box !important;
+}
+
+/* Fix Header Hierarchy (RSVP title above CONTACT PERSONS) */
+/* Fix RSVP and CONTACT PERSONS Overlap */
+/* Clean RSVP Container Spacing */
+.rsvp-page {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-top: 60px !important;
+  padding-bottom: 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Header Fix - Explicit Block Display */
+.rsvp-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin-bottom: 20px !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.rsvp-header h2 {
+  position: relative !important;
+  margin: 0 0 6px 0 !important;
+  padding: 0 !important;
+  font-family: 'Cinzel', 'Playfair Display', serif !important;
+  color: #7a0c0c !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+.rsvp-header .contact-subtitle {
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 2px !important;
+  color: #7a0c0c !important;
+  opacity: 0.8;
+  text-transform: uppercase !important;
+}
+
+/* Center Content & Buttons */
+.rsvp-content,
+.rsvp-contact,
+.rsvp-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 12px !important;
+}
+
+.rsvp-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 90% !important;
+  max-width: 360px !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+}
+
+/* Center Footer */
+.page-footer {
+  margin-top: 25px !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.page-footer .footer-names {
+  font-size: 22px !important;
+  font-weight: bold !important;
+  color: #7a0c0c !important;
+  margin-top: 4px !important;
+}
+
+/* Completely hide duplicate contact label to prevent overlap */
+.rsvp-label {
+  display: none !important;
+}
+
+/* Ensure clean spacing for the remaining subtitle */
+.rsvp-header .contact-subtitle {
+  display: block !important;
+  position: static !important;
+  transform: none !important;
+  margin-top: 6px !important;
+  margin-bottom: 18px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 2px !important;
+  color: #7a0c0c !important;
+  opacity: 0.85;
+}
+
+/* Centered RSVP Contact Cards Container */
+.rsvp-container,
+.contact-section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 12px !important;
+}
+
+.rsvp-card,
+.contact-card {
+  width: 90% !important;
+  max-width: 360px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Scroll to Top Button */
@@ -1291,95 +1523,199 @@ h3 {
 }
 
 /* Page 5: Contact Us */
-#page-5 {
-  background: linear-gradient(135deg, #fff8fb 0%, #ffeef6 100%);
+/* --- CUSTOM BLESSING BOOK STYLING --- */
+.blessing-card-container {
+  background: linear-gradient(145deg, #fffcf7 0%, #fff4f6 100%);
+  border: 1.5px solid #d4af37;
+  border-radius: 24px;
+  padding: 28px 22px 22px;
+  max-width: 380px;
+  margin: 10px auto 0;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(168, 19, 57, 0.08), 
+              inset 0 0 15px rgba(212, 175, 55, 0.05);
+  box-sizing: border-box;
 }
 
+/* Apply Schedule Page Deep Maroon Color to "Shower Your Blessings" Title */
+.contact-header h2 {
+  color: #7a0c0c !important; /* Rich deep maroon matching Schedule page headline */
+  font-weight: 700 !important;
+}
+
+/* Optional: Keep the subtitle clear and coordinated in dark rose/maroon */
+.contact-header p {
+  color: #5c1822 !important;
+}
+
+/* Page 6 Container Padding */
 .contact-page {
-  padding: 60px 20px;
-  text-align: center;
+  padding-top: 75px !important; /* Pushes heading down safely below music button */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Header Section Centering & Spacing */
+.contact-header {
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+  margin-bottom: 35px !important; /* Generous gap so subtitle doesn't hit badge */
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Force full-width block centering on title & subtitle */
+.contact-header h2,
+.contact-header p {
+  width: 100% !important;
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
 }
 
 .contact-header h2 {
-  font-family: "Italiana", serif;
-  font-size: clamp(2.2rem, 6vw, 3.5rem);
-  color: var(--primary);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 1.8rem !important;
+  margin-bottom: 6px !important;
 }
 
 .contact-header p {
-  color: var(--text-muted);
-  margin-bottom: 40px;
+  font-size: 0.92rem !important;
+  line-height: 1.3 !important;
+}
+
+/* Card Container Top Offset */
+.blessing-card-container {
+  margin-top: 20px !important; /* Ensures floating badge (-14px) has plenty of clearance */
+}
+
+/* Add spacing between the subtitle and the card badge */
+.contact-header {
+  margin-bottom: 28px !important; /* Pushes the card container down */
+}
+
+/* Adjust top margin for the card container */
+.blessing-card-container {
+  margin-top: 25px !important; /* Ensures the floating badge (-14px top) has plenty of room */
+}
+
+.blessing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #a81339 0%, #7a0c0c 100%);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 16px;
+  border-radius: 20px;
+  border: 1px solid #ffd700;
+  box-shadow: 0 4px 10px rgba(122, 12, 12, 0.25);
+  white-space: nowrap;
+}
+
+.blessing-field {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.field-tag {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
   font-style: italic;
-  font-size: 1.1rem;
+  font-weight: 600;
+  color: #7a0c0c;
+  margin-bottom: 6px;
 }
 
-.contact-container {
-  max-width: 650px;
-  margin: 0 auto;
-  background: white;
-  padding: clamp(20px, 5vw, 50px);
-  border-radius: var(--card-radius);
-  box-shadow: var(--premium-shadow);
-  border: 1px solid var(--glass-border);
-}
-
-.contact-info {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #5c3f4e;
-  font-size: 0.95rem;
-}
-
-.contact-icon {
-  font-size: 1.2rem;
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-group input,
-.form-group textarea {
+.blessing-input,
+.blessing-textarea {
   width: 100%;
-  padding: 16px 20px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #4a1a24;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #e8c4c8;
   border-radius: 12px;
-  border: 1px solid var(--glass-border);
-  background: #FFF;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.1rem;
-  color: var(--text-main);
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(74, 14, 14, 0.05);
+.blessing-input:focus,
+.blessing-textarea:focus {
+  border-color: #d4af37;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
 }
 
-.contact-form .btn-primary {
+/* Interactive Chips */
+.attendance-chips {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.chip-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.chip-option input[type="radio"] {
+  display: none; /* Hide default radio circle */
+}
+
+.chip-label {
+  display: block;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8c5d64;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e8c4c8;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.chip-option input[type="radio"]:checked + .chip-label {
+  background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+  color: #a81339;
+  border-color: #d4af37;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Submit Button */
+.blessing-submit-btn {
   width: 100%;
-  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, #a81339 0%, #7a0c0c 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1.5px solid #d4af37;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(168, 19, 57, 0.3);
+  transition: all 0.3s ease;
 }
 
-#page-5 .page-footer {
-  margin-top: 50px;
-  border-top: 1px solid rgba(196, 142, 155, 0.1);
+.blessing-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 19, 57, 0.45);
 }
 
 /* Music Control */
@@ -1582,31 +1918,31 @@ h3 {
   }
 
   #page-2 .sanskrit-heading {
-    font-size: 0.68rem;
+    font-size: 1.15rem;
     margin-bottom: 15px;
     letter-spacing: -0.3px;
     white-space: nowrap;
   }
 
   #page-2 .sanskrit-mantra {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     line-height: 1.35;
     margin-bottom: 20px;
   }
 
   #page-2 .blessing-line {
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     margin-bottom: 5px;
     line-height: 1.3;
   }
 
   #page-2 .blessings-page strong {
-    font-size: 0.92rem;
+    font-size: 1.25rem;
     font-weight: 700;
   }
 
   #page-2 .ashirvad-line {
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     margin-top: 20px;
     margin-bottom: 2px;
   }
@@ -1618,17 +1954,17 @@ h3 {
   }
 
   #page-2 .parent-names .location {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 
   #page-2 .host-name {
-    font-size: 1.28rem;
+    font-size: 1.35rem;
     margin-top: 20px;
     margin-bottom: 3px;
   }
 
   #page-2 .invitation-text {
-    font-size: 0.90rem;
+    font-size: 1.05rem;
     line-height: 1.35;
     max-width: 320px;
     margin: 0 auto;
@@ -1845,6 +2181,473 @@ html, body {
   box-sizing: border-box;
 }
 
+
+/* Unified Headline Font & Styling across Schedule, Blessing Book, and RSVP */
+.schedule-header h2,
+.contact-header h2,
+.rsvp-header h2,
+.section-title {
+  font-family: 'Cinzel', 'Playfair Display', serif !important;
+  color: #7a0c0c !important; /* Rich deep maroon */
+  font-weight: 700 !important;
+  font-size: 1.4rem !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  margin-bottom: 8px !important;
+}
+
+
+/* Floating Circular Menu Button (Top Right) */
+.nav-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(122, 12, 12, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  color: #7a0c0c;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Modal Overlay Background */
+.nav-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* Floating White Navigation Card */
+.nav-modal-card {
+  background: #ffffff;
+  width: 88%;
+  max-width: 360px;
+  border-radius: 24px;
+  padding: 30px 24px 24px 24px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  border: 1px solid #ffe3e8;
+}
+
+.nav-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #7a0c0c;
+  cursor: pointer;
+}
+
+/* Brand Header Inside Drawer */
+.nav-header-brand {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.nav-initials {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #7a0c0c;
+}
+
+.nav-hashtag {
+  font-size: 0.8rem;
+  color: #a35d5d;
+}
+
+/* Menu Links */
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.nav-links li {
+  margin-bottom: 12px;
+}
+
+.nav-links a {
+  display: block;
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #4a2c2c;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.nav-links a:hover {
+  background: #fff0f3;
+  color: #7a0c0c;
+}
+
+/* RSVP Button Styling */
+.nav-rsvp-wrapper {
+  margin-top: 15px;
+  border-top: 1px solid #fce4e8;
+  padding-top: 18px;
+}
+
+.nav-rsvp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #d8838a;
+  color: #ffffff;
+  padding: 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  box-shadow: 0 4px 12px rgba(216, 131, 138, 0.4);
+}
+
+.nav-footer-hashtag {
+  margin-top: 15px;
+  font-size: 0.78rem;
+  color: #a35d5d;
+}
+
+
+/* Force hide all side navigation dots when hidden-scroller class is active */
+/* Hide side scroller on shortcut pages without touching inline layout styles */
+body.hide-side-scroller .side-nav,
+body.hide-side-scroller .pagination-dots,
+body.hide-side-scroller .side-scroller,
+body.hide-side-scroller [class*="dot"],
+body.hide-side-scroller [class*="pagination"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+
+/* New Page 4 with tabs */
+/* Page container top clearance */
+.wedding-details-page {
+  padding-top: 60px !important; /* Pushes content down past the floating top buttons */
+}
+
+/* Heading spacing */
+.details-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #7a0c0c;
+  margin-top: 15px !important; /* Breathing room above 'The Nuptials' */
+  margin-bottom: 4px !important;
+}
+
+.details-subtitle {
+  font-size: 0.9rem;
+  color: #5a3e3e;
+  margin-bottom: 20px !important; /* Space between subtitle and tab buttons */
+}
+
+
+/* Page Titles matching site theme */
+.details-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #7a0c0c;
+  margin: 10px 0 4px 0;
+}
+
+.details-subtitle {
+  font-size: 0.95rem;
+  color: #5a3e3e;
+  margin-bottom: 20px;
+}
+
+/* Tab Filter Buttons */
+.details-tab-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 360px;
+  margin: 0 auto 25px auto;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid #f3d4d8;
+  border-radius: 20px;
+  color: #4a2c2c;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-btn.active {
+  background: #d8838a;
+  color: #ffffff;
+  border-color: #d8838a;
+  box-shadow: 0 4px 12px rgba(216, 131, 138, 0.35);
+}
+
+/* Kashmiri Wedding Ceremonies Heading */
+.ceremony-section-heading {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #2b1f1f;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Exact Card Layout from Screenshots 2 & 3 */
+.ceremony-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #f2d2d6;
+  padding: 24px 20px;
+  margin: 0 auto 20px auto;
+  max-width: 360px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  text-align: center;
+}
+
+.ceremony-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px auto;
+}
+
+.ceremony-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ceremony-title {
+  font-family: 'Great Vibes', 'Alex Brush', cursive;
+  font-size: 1.9rem;
+  color: #2b1f1f;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.ceremony-date {
+  font-size: 0.9rem;
+  color: #6a5353;
+  margin-bottom: 4px;
+}
+
+.ceremony-time {
+  font-size: 0.85rem;
+  color: #8c7171;
+  margin-bottom: 12px;
+}
+
+.ceremony-location {
+  display: inline-block;
+  font-size: 0.88rem;
+  color: #2a3eb1;
+  text-decoration: underline;
+  line-height: 1.4;
+}
+
+
+/* Crucial: Hide all tab sections by default */
+.tab-content {
+  display: none !important;
+}
+
+/* Only display the section corresponding to the selected pill tab */
+.tab-content.active-content {
+  display: block !important;
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 4 Tabs arranged strictly in 1 single row */
+.details-tab-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px; /* Compact spacing between pills */
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto 20px auto;
+  padding: 0 5px;
+}
+
+.tab-btn {
+  flex: 1; /* Distribute equal width to all 4 tabs */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px; /* Reduced vertical & horizontal padding */
+  background: #ffffff;
+  border: 1px solid #f3d4d8;
+  border-radius: 16px;
+  color: #4a2c2c;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.72rem; /* Reduced font size to ensure fit on mobile */
+  font-weight: 700;
+  white-space: nowrap; /* Prevents text inside buttons from wrapping */
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.tab-btn span {
+  font-size: 0.8rem; /* Slightly smaller icons */
+}
+
+/* Active Highlighted Pill */
+.tab-btn.active {
+  background: #d8838a;
+  color: #ffffff;
+  border-color: #d8838a;
+  box-shadow: 0 3px 10px rgba(216, 131, 138, 0.35);
+}
+
+
+/* Dress Code Subtitle Badge */
+.ceremony-subtitle-tag {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #a35d5d;
+  letter-spacing: 0.5px;
+  margin: -4px 0 10px 0;
+  text-transform: uppercase;
+}
+
+/* Dress Code Description Text */
+.ceremony-description {
+  font-size: 0.88rem;
+  color: #5a4242;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 5px;
+}
+
+
+/* Travel Contact Highlight Box */
+.travel-contact-box {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px dashed #f2d2d6;
+}
+
+.contact-note {
+  font-size: 0.82rem;
+  color: #6a5353;
+  margin-bottom: 10px;
+}
+
+.travel-phone-btn {
+  display: inline-block;
+  background: #fdf3f4;
+  color: #7a0c0c;
+  border: 1px solid #f2c2c7;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.travel-phone-btn span {
+  text-decoration: underline;
+  color: #9c1f1f;
+}
+
+.travel-phone-btn:hover {
+  background: #7a0c0c;
+  color: #ffffff;
+}
+
+.travel-phone-btn:hover span {
+  color: #ffffff;
+}
+
+
+/* Container wrapping all full-screen pages */
+html, body, .main-container {
+  height: 100%;
+  overflow-y: mandatory;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+/* Each full page section */
+section.page {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow-y: auto; /* Allows internal scrolling if page content is tall */
+}
+
+.nav-dots {
+  transition: opacity 0.3s ease;
+}
+
+.scroll-to-top {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
 
 

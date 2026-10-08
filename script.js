@@ -17,6 +17,7 @@ const pages = document.querySelectorAll('.page');
 const navDots = document.querySelectorAll('.nav-dot');
 let currentPageIndex = 0;
 let isTransitioning = false;
+let isShortcutMode = false; // Tracks if user navigated via shortcut modal
 const transitionDuration = 600; // Match CSS transition
 
 // Reveal Animations using IntersectionObserver
@@ -88,10 +89,10 @@ function switchPage(index) {
 
   currentPageIndex = index;
 
-  // Update Scroll to Top button visibility
+  // Update Scroll to Top button visibility (Only in normal feed mode)
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   if (scrollTopBtn) {
-    if (currentPageIndex > 0) {
+    if (currentPageIndex > 0 && !isShortcutMode) {
       scrollTopBtn.classList.add('show');
     } else {
       scrollTopBtn.classList.remove('show');
@@ -124,14 +125,12 @@ if (pages.length > 0) {
 
 // Wheel / Scroll Handling
 window.addEventListener('wheel', (e) => {
-  if (isTransitioning) return;
+  if (isTransitioning || isShortcutMode) return; // Disable scrolling across pages in shortcut mode
   if (Math.abs(e.deltaY) < 10) return;
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
-  // BLOCK SCROLLING DOWN FROM PAGE 1 (Index 0)
-  // Page 2 can only be opened via the "Open Invitation" button
   if (currentPageIndex === 0 && e.deltaY > 0) {
     return;
   }
@@ -140,7 +139,6 @@ window.addEventListener('wheel', (e) => {
   const isScrollable = maxScroll > 15;
 
   if (e.deltaY > 0) {
-    // Scrolling DOWN (Pages 2 through 6)
     if (!isScrollable) {
       switchPage(currentPageIndex + 1);
       return;
@@ -163,7 +161,6 @@ window.addEventListener('wheel', (e) => {
       switchPage(currentPageIndex + 1);
     }
   } else if (e.deltaY < 0) {
-    // Scrolling UP
     if (!isScrollable) {
       switchPage(currentPageIndex - 1);
       return;
@@ -190,7 +187,7 @@ window.addEventListener('wheel', (e) => {
 
 // Keyboard Navigation
 document.addEventListener('keydown', (e) => {
-  if (isTransitioning) return;
+  if (isTransitioning || isShortcutMode) return; // Disable shortcut mode page switching
 
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
@@ -233,9 +230,8 @@ document.addEventListener('touchstart', (e) => {
   touchStartScrollTop = activePage ? activePage.scrollTop : 0;
 }, { passive: true });
 
-// Touch / Swipe Navigation
 document.addEventListener('touchend', (e) => {
-  if (!isTouchActive || isTransitioning) return;
+  if (!isTouchActive || isTransitioning || isShortcutMode) return; // Disable touch page switching in shortcut mode
   isTouchActive = false;
 
   const touchEndY = e.changedTouches[0].clientY;
@@ -249,8 +245,6 @@ document.addEventListener('touchend', (e) => {
   const activePage = pages[currentPageIndex];
   if (!activePage) return;
 
-  // BLOCK SWIPING UP ON PAGE 1 (Index 0)
-  // Page 2 can only be opened via the "Open Invitation" button
   if (currentPageIndex === 0 && diffY > 35) {
     return;
   }
@@ -259,7 +253,6 @@ document.addEventListener('touchend', (e) => {
   const isScrollable = maxScroll > 15;
 
   if (diffY > 35) {
-    // Swiping UP -> scrolling DOWN (Pages 2 through 6)
     if (!isScrollable) {
       switchPage(currentPageIndex + 1);
       return;
@@ -272,7 +265,6 @@ document.addEventListener('touchend', (e) => {
       switchPage(currentPageIndex + 1);
     }
   } else if (diffY < -35) {
-    // Swiping DOWN -> scrolling UP
     if (!isScrollable) {
       switchPage(currentPageIndex - 1);
       return;
@@ -291,6 +283,7 @@ document.addEventListener('touchend', (e) => {
 navDots.forEach((dot, index) => {
   dot.addEventListener('click', (e) => {
     e.preventDefault();
+    isShortcutMode = false;
     switchPage(index);
   });
 });
@@ -301,13 +294,24 @@ if (scrollTopBtn) {
   scrollTopBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Guard against triggering during an active page transition
     if (isTransitioning) return;
-
-    // Switch smoothly back to Page 1 (Index 0)
+    isShortcutMode = false;
     switchPage(0);
   });
+}
+
+// Audio Helper Function
+function playWeddingAudio() {
+  const audio = document.getElementById('wedding-audio');
+  const musicBtn = document.getElementById('music-btn');
+
+  if (audio && audio.paused) {
+    audio.muted = false;
+    audio.volume = 1.0;
+    audio.play().then(() => {
+      if (musicBtn) musicBtn.classList.remove('is-muted');
+    }).catch((err) => console.log("Audio play blocked by browser:", err));
+  }
 }
 
 // --- AUDIO & BUTTON CONTROLS ---
@@ -316,25 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const audio = document.getElementById('wedding-audio');
   const musicBtn = document.getElementById('music-btn');
 
-  // 1. Open Invitation Button -> Plays Audio + Goes directly to Page 2
+  // Play audio on "Open Invitation" click
   if (enterBtn) {
     enterBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      if (audio) {
-        audio.muted = false;
-        audio.volume = 1.0;
-        audio.play().then(() => {
-          if (musicBtn) musicBtn.classList.remove('is-muted');
-        }).catch((err) => console.log("Audio start blocked:", err));
-      }
-
+      playWeddingAudio();
+      isShortcutMode = false;
       switchPage(1);
     });
   }
 
-  // 2. Music Icon Toggle -> Mute / Unmute Cleanly
+  // Toggle Mute / Unmute manually
   if (musicBtn) {
     musicBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -346,16 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.pause();
         musicBtn.classList.add('is-muted');
       } else {
-        audio.muted = false;
-        audio.volume = 1.0;
-        audio.play().then(() => {
-          musicBtn.classList.remove('is-muted');
-        }).catch((err) => console.log("Play failed:", err));
+        playWeddingAudio();
       }
     });
   }
 
-  // 3. Pause Audio when browser tab goes to background
+  // Handle visibility & tab changes
   document.addEventListener('visibilitychange', () => {
     if (!audio) return;
 
@@ -369,6 +363,27 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('pagehide', () => {
     if (audio) audio.pause();
   });
+});
+
+// Navigation Modal Controls
+const navToggleBtn = document.getElementById('nav-toggle-btn');
+const navCloseBtn = document.getElementById('nav-close-btn');
+const navModal = document.getElementById('nav-modal');
+
+function openNavMenu() {
+  if (navModal) navModal.classList.add('active');
+  playWeddingAudio(); // Trigger audio playback when opening nav menu
+}
+
+function closeNavMenu() {
+  if (navModal) navModal.classList.remove('active');
+}
+
+if (navToggleBtn) navToggleBtn.addEventListener('click', openNavMenu);
+if (navCloseBtn) navCloseBtn.addEventListener('click', closeNavMenu);
+
+window.addEventListener('click', (e) => {
+  if (e.target === navModal) closeNavMenu();
 });
 
 // Countdown Timer Setup
@@ -402,3 +417,127 @@ function updateCountdown() {
 
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
+
+function sendWishesToWhatsApp(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('guest-name').value.trim();
+  const attendance = document.querySelector('input[name="attendance"]:checked').value;
+  const blessing = document.getElementById('guest-blessing').value.trim();
+
+  let message = `*🌸 Wedding Blessings & RSVP 🌸*\n\n`;
+  message += `*From:* ${name}\n`;
+  message += `*Attendance:* ${attendance}\n`;
+  if (blessing) {
+    message += `*Blessings:* "${blessing}"\n`;
+  }
+
+  const phoneNumber = "919149451381";
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappUrl, '_blank');
+}
+
+// Dynamic Tab Switcher for Wedding Details / Travel Page
+function switchDetailTab(tabId, btnElement) {
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active-content');
+  });
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  const targetTab = document.getElementById(tabId);
+  if (targetTab) {
+    targetTab.classList.add('active-content');
+  }
+
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+}
+
+// Helper function to reset detail tabs back to default (e.g., Schedule tab)
+function resetDetailTabsToDefault() {
+  const defaultTabBtn = document.querySelector('.tab-btn');
+  const firstTabContent = document.querySelector('.tab-content');
+
+  if (defaultTabBtn && firstTabContent) {
+    // Reset buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    defaultTabBtn.classList.add('active');
+
+    // Reset contents
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active-content'));
+    firstTabContent.classList.add('active-content');
+  }
+}
+
+// Centralized Shortcut Navigation Function
+function navigateToSection(targetPageId, targetTabId = null) {
+  closeNavMenu();
+
+  const navDotsEl = document.querySelector('.nav-dots');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+  if (targetPageId === 'page-1') {
+    // Returning Home -> Restores Main Feed Navigation Mode
+    isShortcutMode = false;
+    if (navDotsEl) navDotsEl.style.display = 'flex';
+
+    // Reset tabbed sections back to default (Schedule tab)
+    resetDetailTabsToDefault();
+  } else {
+    // Entering Shortcut Mode -> Disable main feed scroll & side dots
+    isShortcutMode = true;
+    if (navDotsEl) navDotsEl.style.display = 'none';
+    if (scrollTopBtn) scrollTopBtn.classList.remove('show');
+  }
+
+  const targetPage = document.getElementById(targetPageId);
+  if (targetPage) {
+    // Reset target page internal scroll to top
+    targetPage.scrollTop = 0;
+
+    // Switch active page
+    const index = Array.from(pages).findIndex(p => p.id === targetPageId);
+    if (index !== -1) {
+      pages.forEach(p => p.classList.remove('active'));
+      targetPage.classList.add('active');
+      currentPageIndex = index;
+    }
+
+    // If a specific inner tab was requested by the shortcut (e.g., Travel tab)
+    if (targetTabId) {
+      const tabBtnToActivate = document.querySelector(`[onclick*="${targetTabId}"]`);
+      switchDetailTab(targetTabId, tabBtnToActivate);
+    }
+  }
+}
+
+// Shortcut Click Handlers
+function goToHome(e) {
+  if (e) e.preventDefault();
+  navigateToSection('page-1');
+}
+
+function goToWeddingInfo(e) {
+  if (e) e.preventDefault();
+  navigateToSection('page-4'); // Default tab will open
+}
+
+function goToTravelInfo(e) {
+  if (e) e.preventDefault();
+  navigateToSection('page-4', 'travel-tab'); // Opens page-4 directly on travel tab
+}
+
+function goToBlessings(e) {
+  if (e) e.preventDefault();
+  navigateToSection('page-5');
+}
+
+function goToRsvp(e) {
+  if (e) e.preventDefault();
+  navigateToSection('page-6');
+}
